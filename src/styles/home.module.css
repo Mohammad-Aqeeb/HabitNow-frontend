@@ -1,0 +1,467 @@
+.homepageContainer {
+  width: 100%;
+  background-color: #242424;
+  color: #fff;
+  font-family: "Arial", sans-serif;
+  min-height: 85vh !important;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #333;
+}
+
+.navbarTitle {
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.navbarIcons {
+  display: flex;
+  align-items: center;
+}
+
+.navbarIcons .icon {
+  font-size: 1.2rem;
+  margin-left: 1rem;
+  color: #e91e63;
+  cursor: pointer;
+}
+
+.dateScroll {
+  display: flex;
+  overflow-x: auto;
+  padding: 0.5rem;
+  background-color: #242424;
+  scrollbar-width: none;
+}
+
+.dateScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.dateItem {
+  flex: 0 0 60px;
+  text-align: center;
+  padding: 0.5rem;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.activeDate {
+  background-color: #e91e63;
+  color: #fff;
+  border-radius: 10px;
+}
+
+.centerContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: #aaa;
+  min-height: 60vh;
+}
+
+.calendarIcon {
+  position: relative;
+}
+
+.bigIcon {
+  font-size: 5rem;
+  color: #e91e63;
+}
+
+.addIcon {
+  position: absolute;
+  bottom: 5px;
+  right: -5px;
+  background-color: #4caf50;
+  color: #fff;
+  border-radius: 50%;
+  padding: 0.3rem;
+}
+
+.fab {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  background-color: #e91e63;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  z-index: 10;
+}
+
+.fab:hover {
+  background-color: #d81b60;
+}
+
+.bottomNavbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.8rem 0;
+  background-color: #2b2b2b;
+  border-top: 1px solid #333;
+  width: 100%;
+}
+
+.navItem {
+  text-align: center;
+  color: #aaa;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.navItemIcon {
+  font-size: 1.2rem;
+}
+
+.Plus {
+  font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .navbarTitle {
+    font-size: 1.2rem;
+  }
+
+  .bigIcon {
+    font-size: 4rem;
+  }
+
+  .fab {
+    bottom: 120px;
+  }
+
+  .centerContent {
+    min-height: 50vh;
+  }
+
+  .dateScroll {
+    padding: 0.3rem;
+  }
+
+  .dateItem {
+    flex: 0 0 50px;
+    font-size: 0.8rem;
+  }
+
+  .bottomNavbar {
+    padding: 0.6rem 0;
+  }
+}
+
+/* Add remaining styles (modal, task-card, etc.) using camelCase class names similarly */
+.modal {
+  position: fixed;
+  top: 350px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #242424;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 1000;
+  transition: bottom 1s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.modalShow {
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #242424;
+}
+
+.modalContent {
+  background-color: #2b2b2b;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  color: white;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-in-out, transform 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.modalShowContent {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.closeBtn {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #e91e63;
+  cursor: pointer;
+  position: absolute;
+  top: -10px;
+  right: 20px;
+}
+
+.modalOption {
+  align-items: center;
+  margin: 20px 0;
+  background-color: #333;
+  padding: 15px;
+  border-radius: 8px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 2s ease-in-out, transform 1.2s ease-in-out;
+  transition-delay: 0.4s;
+}
+
+.modalOptionShow {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.modalIcon {
+  font-size: 2rem;
+  margin-right: 15px;
+  color: #e91e63;
+}
+
+.modalOptionText {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.modalOptionSubtext {
+  font-size: 0.7rem;
+  color: #aaa;
+  margin-top: 8px;
+  display: block;
+}
+
+/* For links everywhere — keep globally applied */
+:global(a) {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Navigation active state inside .navItem container */
+:global(.nav-item) .active {
+  color: #e91e63; /* Highlight active link */
+}
+
+/* Fix icons inside nav items */
+:global(.nav-item) .icon {
+  font-size: 1.5rem;
+}
+
+/* Active nav item text style */
+:global(.nav-item.active) p {
+  font-weight: bold;
+}
+
+/* Active nav item icon color */
+:global(.nav-item.active) .icon {
+  color: #e91e63;
+}
+
+
+.calendarIconContainer {
+  display: flex;
+  height: 70vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.calendarIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.bigIcon {
+  font-size: 50px;
+  margin-right: 10px;
+}
+
+.addIcon {
+  font-size: 30px;
+  color: #4caf50;
+}
+
+.messageText {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.messageSubtext {
+  font-size: 14px;
+  color: #888;
+}
+
+.taskCards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 20px;
+}
+
+.taskCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.taskTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  flex-grow: 1;
+}
+
+.taskActions {
+  display: flex;
+  gap: 12px;
+}
+
+.viewIcon,
+.editIcon,
+.deleteIcon {
+  font-size: 20px;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.3s ease;
+}
+
+.viewIcon:hover {
+  color: #007bff;
+}
+
+.editIcon:hover {
+  color: #28a745;
+}
+
+.deleteIcon:hover {
+  color: #dc3545;
+}
+
+.modalEditTask {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modalContentEdit {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.closeBtnEdit {
+  background: #fff;
+  border: none;
+  font-size: 20px;
+  color: #333;
+  cursor: pointer;
+  position: absolute;
+  top: 26vh;
+  right: 15px;
+}
+
+.closeBtnEdit:hover {
+  color: #e74c3c;
+}
+
+.modalHeader {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.editTaskForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.editTaskLabel {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.editTaskInput,
+.editTaskTextarea {
+  font-size: 14px;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  resize: none;
+}
+
+.editTaskTextarea {
+  resize: vertical;
+  height: 100px;
+}
+
+.editTaskBtn {
+  background-color: #e91e63;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.editTaskBtn:hover {
+  background-color: #2980b9;
+}
+
+.editTaskBtn:focus {
+  outline: none;
+}
+
+.editTaskBtn:active {
+  background-color: #1c6699;
+}
