@@ -107,10 +107,10 @@ const HomePage = () => {
           HabitNow
         </span>
         <div className={styles.navbarIcons}>
-          <FaSearch className={styles.icon} />
-          <FaFilter className={styles.icon} />
+          {/* <FaSearch className={styles.icon} />
+          <FaFilter className={styles.icon} /> */}
           <FaCalendarAlt className={styles.icon} />
-          <FaQuestionCircle className={styles.icon} />
+          {/* <FaQuestionCircle className={styles.icon} /> */}
         </div>
       </div>
 
@@ -193,9 +193,9 @@ const HomePage = () => {
             <div className={`${styles.modalOption} ${styles.modalOptionShow}`} onClick={handleHabitNavigation}>
               <div style={{ display: 'flex' }}>
                 <FaTrophy className={styles.modalIcon} />
-                <p>Habit</p>
+                <p  className={styles.modalOptionText}>Habit</p>
               </div>
-              <span>Activity that repeats over time. It has detailed tracking and statistics.</span>
+              <span className={styles.modalOptionSubtext}>Activity that repeats over time. It has detailed tracking and statistics.</span>
             </div>
 
             <div className={`${styles.modalOption} ${styles.modalOptionShow}`} onClick={handleRecurringNavigation}>
@@ -209,9 +209,9 @@ const HomePage = () => {
             <div className={`${styles.modalOption} ${styles.modalOptionShow}`} onClick={handleTaskNavigation}>
               <div style={{ display: 'flex' }}>
                 <FaCheckCircle className={styles.modalIcon} />
-                <p>Task</p>
+                <p className={styles.modalOptionText}>Task</p>
               </div>
-              <span>Single instance activity without tracking over time.</span>
+              <span className={styles.modalOptionSubtext}>Single instance activity without tracking over time.</span>
             </div>
           </div>
         </div>
