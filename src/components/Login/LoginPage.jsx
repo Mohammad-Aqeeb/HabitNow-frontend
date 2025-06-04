@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from '../../styles/login.module.css';
+import axiosInstance from '@/services/axiosInstance';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -16,21 +17,13 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await axiosInstance.post('/user/login', { email, password });
 
-      const data = await response.json();
-
-      if (!response.ok) {
+      if (!response.request.status) {
         throw new Error(data.error || 'Login failed');
       }
 
-      localStorage.setItem('token', data.token);
+      localStorage.setItem('token', response.data.token);
       alert('Login successful!');
       router.push('/');
     } catch (err) {
