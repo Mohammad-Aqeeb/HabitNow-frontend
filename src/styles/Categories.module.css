@@ -1,0 +1,218 @@
+.categoriesPageContainer {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  margin: 2px;
+  padding: 20px;
+  height: 95vh;
+  overflow-y: auto;
+  max-width: 90vw;
+  background-color: #242424;
+  border-radius: 12px;
+  margin-top: 1.25rem;
+}
+
+.heading1 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #fff;
+}
+
+.heading2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #ccc;
+}
+
+.categoriesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.categoryItem {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #444;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+  margin-bottom: 15px;
+}
+
+.categoryItem:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.categorySpan {
+  font-size: 1.2rem;
+  color: #fff;
+  font-weight: 600;
+  flex: 1;
+}
+
+
+.categoryButton {
+  margin: 2px;
+  font-size: 1rem;
+  background-color: #f3df08;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.categoryButton:hover {
+  background-color: #2b649c;
+}
+
+.plusIconContainer {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.plusIconButton {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.plusIconButton:hover {
+  background-color: #218838;
+}
+
+.createCategoryForm {
+  width: 100%;
+  background: #444;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  margin-top: 40px;
+  max-width: 700px;
+  width: 80%;
+  margin: 0 auto 15px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.createCategoryFormh5 {
+  font-size: 0.9rem;
+  color: #faf5f5;
+  margin-bottom: 40px;
+  margin: 0.5rem;
+  margin-bottom: 1.5rem;
+  width: 100%; 
+}
+
+.formDiv{
+  display: flex;
+  justify-content: center; 
+}
+
+.fromDiv1{
+  flex: 0 0 50%;
+  max-width: 50%;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.createCategoryFormLabel {
+  font-size: 0.6rem;
+  color: #ccc;
+}
+
+.createCategoryFormInput,
+.createCategoryFormTextarea,
+.createCategoryFormSelect {
+  width: 100%;
+  border: 1px solid #555;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #333;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  padding: 10px;
+}
+
+.createCategoryFormInput:focus,
+.createCategoryFormTextarea:focus,
+.createCategoryFormSelect:focus {
+  border-color: #1e90ff;
+  outline: none;
+}
+
+.createCategoryFormButton {
+  padding: 15px 25px;
+  background-color: #1e90ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  margin-top: 0.75rem;
+}
+
+.createCategoryFormButton:hover {
+  background-color: #0066cc;
+}
+
+.createCategoryFormButton:focus {
+  outline: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .heading1 {
+    font-size: 2rem;
+  }
+
+  .heading2 {
+    font-size: 1.5rem;
+  }
+
+  .createCategoryForm {
+    padding: 20px;
+  }
+
+  .createCategoryFormButton {
+    font-size: 1rem;
+    padding: 12px 18px;
+  }
+
+  .plusIconButton {
+    font-size: 2rem;
+    padding: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .heading1 {
+    font-size: 1.8rem;
+  }
+
+  .createCategoryFormInput,
+  .createCategoryFormTextarea,
+  .createCategoryFormSelect {
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  .createCategoryFormButton {
+    padding: 10px 20px;
+  }
+
+  .plusIconButton {
+    font-size: 1.8rem;
+    padding: 15px;
+  }
+}
