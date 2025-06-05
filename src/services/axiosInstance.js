@@ -3,7 +3,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://192.168.29.88:5000/api',
+  baseURL: 'http://localhost:5000/api',
   timeout: 5000,
 });
 
@@ -34,7 +34,7 @@ axiosInstance.interceptors.response.use(
     ) {
       localStorage.removeItem('token');
       alert('Session expired. Please log in again.');
-      window.location.href = '/login'; // Can also use router.push in your component
+      window.location.href = '/login';
     }
     return Promise.reject(error);
   }
