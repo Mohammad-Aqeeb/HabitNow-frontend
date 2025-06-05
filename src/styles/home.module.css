@@ -320,11 +320,17 @@
   color: #888;
 }
 
+.singleTaskH2{
+  margin-top: 1.25rem;
+  padding: 0.75rem;
+}
+
 .taskCards {
   display: flex;
   flex-direction: column;
   gap: 16px;
   margin: 20px;
+  margin-bottom: 1.25rem;
 }
 
 .taskCard {
@@ -370,6 +376,11 @@
 
 .deleteIcon:hover {
   color: #dc3545;
+}
+
+.recurringTaskH2{
+  margin-top: 1.25rem;
+  padding: 0.75rem;
 }
 
 .modalEditTask {
