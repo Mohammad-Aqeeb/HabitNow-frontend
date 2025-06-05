@@ -1,0 +1,104 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: flex-end;
+  height: 84vh;
+  background-color: #242424;
+  color: rgb(255, 255, 255);
+  padding: 20px;
+  align-content: space-between;
+  flex-wrap: nowrap;
+}
+
+.heading {
+  margin-top: 1.25rem; 
+  padding: 0.5rem;
+  font-size: 24px;
+  color: #ff4d6d;
+  margin-bottom: 30px;
+}
+
+.optionContainer {
+  width: 100%;
+  max-width: 400px;
+  flex-grow: 1;
+}
+
+.option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #333;
+}
+
+.optionLabel {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #fff;
+}
+
+.icon {
+  margin-right: 10px;
+  font-size: 18px;
+  color: #ff4d6d;
+}
+
+.optionButton {
+  padding: 8px 20px;
+  background-color: #1c1c1e;
+  color: #ff4d6d;
+  border: 1px solid #ff4d6d;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: -2;
+  right: 0;
+  bottom: 0;
+  border-radius: 20px;
+  transition: 0.4s;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 400px;
+  margin-top: 20px;
+}
+
+.backButton {
+  flex: 1;
+  padding: 10px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.saveButton {
+  flex: 1;
+  padding: 10px;
+  background-color: #ff4d6d;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
