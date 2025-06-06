@@ -150,7 +150,7 @@ const TaskPage = () => {
     </div>
 
     <div className={styles.buttonGroup}>
-      <button className={`${styles.btn} ${styles.cancel}`} onClick={() => router.push('/')} disabled={loading}>
+      <button className={`${styles.btn} ${styles.cancel}`} onClick={() => router.back()} disabled={loading}>
         Cancel
       </button>
       <button className={`${styles.btn} ${styles.confirm}`} onClick={handleConfirm} disabled={loading}>
