@@ -7,7 +7,7 @@ const TimerPage = () => {
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [tab, setTab] = useState("stopwatch");
-  const [records, setRecords] = useState([]);
+  const [records, setRecords] = useState(null);
   const [selectedSound, setSelectedSound] = useState("default-alarm");
   const alarmAudioRef = useRef(null);
 
@@ -50,14 +50,16 @@ const TimerPage = () => {
     }
   };
 
-  const handleReset = () => {
-    setTime(0);
-    setIsRunning(false);
-    stopAlarm();
-  };
+  // const handleReset = () => {
+  //   setTime(0);
+  //   setIsRunning(false);
+  //   stopAlarm();
+  // };
 
   const handleRecord = () => {
-    setRecords([...records, time]);
+    setRecords(time);
+    setTime(0);
+    stopAlarm();
   };
 
   const stopAlarm = () => {
@@ -99,17 +101,33 @@ const TimerPage = () => {
                 width: "80px",
                 textAlign: "center",
                 }}
+                value={time}
             />
             )}
-            <button className={styles.startBtn} onClick={() => setIsRunning(!isRunning)}>
-            {isRunning ? "Pause" : "Start"}
-            </button>
-            {tab === "stopwatch" && (
-                <button className={styles.recordBtn} onClick={handleRecord}>Record</button>
+
+            {!isRunning && (time === 0 || (tab === "countdown" && time > 0)) && (
+              <button className={styles.startBtn} onClick={() => setIsRunning(true)}>
+                Start
+              </button>
             )}
 
-            <button className={styles.resetBtn} onClick={handleReset}>Reset</button>
-        
+            {time !== 0 && isRunning && (
+              <button className={styles.startBtn} onClick={() => setIsRunning(false)}>
+                Pause
+              </button>
+            )}
+
+            {time !== 0 && !isRunning && !(time === 0 || (tab === "countdown" && time > 0)) && (
+              <button className={styles.startBtn} onClick={() => setIsRunning(true)}>
+                Resume
+              </button>
+            )}
+
+            {!isRunning && time !== 0 && (
+              <button className={styles.recordBtn} onClick={handleRecord}>
+                Stop
+              </button>
+            )}
         </div>
 
       <div className={styles.tabs}>
@@ -124,7 +142,7 @@ const TimerPage = () => {
         ))}
       </div>
 
-      {tab === "countdown" && (
+      {/* {tab === "countdown" && (
         <div className={styles.soundSelection}>
           <label>
             Select Alarm Sound:{" "}
@@ -146,22 +164,16 @@ const TimerPage = () => {
             </select>
           </label>
         </div>
-      )}
+      )} */}
 
-      {tab === "stopwatch" && (
         <div className={styles.records}>
           <h3 className={styles.recordsh3}>Last Record</h3>
-          {records.length > 0 ? (
-            records.map((record, index) => (
-              <div key={index} className={styles.record}>
-                {formatTime(record)}
-              </div>
-            ))
+          {records ? (
+            <div>{records}</div>
           ) : (
             <p>No activity recorded</p>
           )}
         </div>
-      )}
     </div>
   );
 };
