@@ -1,16 +1,24 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { FaPlus, FaCalendarAlt } from "react-icons/fa";
+import { FaPlus, FaCalendarAlt} from "react-icons/fa";
 import { useTaskContext } from "@/context/TaskProvider";
+import { useRouter } from "next/navigation"
 import axiosInstance from "@/services/axiosInstance";
 import styles from "@/styles/MyTask.module.css";
+import ChooseTaskModal from "../ChooseTaskModal/ChooseTaskModal";
 
 export default function MyTaskPage() {
   const { tasks, setTasks } = useTaskContext();
   const [activeTab, setActiveTab] = useState("single");
   const [singleTasks, setSingleTasks] = useState([]);
   const [recurringTasks, setRecurringTasks] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const router = useRouter();
+
+  const handlePlusClick = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -51,7 +59,10 @@ export default function MyTaskPage() {
     return (
       <div className={styles.taskList}>
         {currentTasks.map((task) => (
-          <div key={task._id} className={styles.taskItem}>
+          <div 
+              key={task._id} 
+              className={styles.taskItem}
+              onClick={() => router.push(`/task/${task._id}`)}>
             <div>
               {task.name && <p className={styles.taskName}>{task.name}</p>}
               {task.note && <p className={styles.taskNote}>{task.note}</p>}
@@ -61,8 +72,6 @@ export default function MyTaskPage() {
       </div>
     );
   };
-
-  const setValue = null; // You can replace this with logic if needed
 
   return (
     <div className={styles.taskPage} style={{ marginTop: "100px" }}>
@@ -86,11 +95,14 @@ export default function MyTaskPage() {
       <div className={styles.content}>{renderTasks()}</div>
 
       {/* Floating Add Button */}
-      {setValue && (
-        <button className={styles.floatingButton} onClick={() => setValue("add-task")}>
-          <FaPlus />
-        </button>
+      <button className={styles.floatingButton} onClick={handlePlusClick}>
+        <FaPlus className={styles.plus} />
+      </button>
+
+      {isModalOpen && (
+        <ChooseTaskModal closeModal={closeModal}/>
       )}
+
     </div>
   );
 }
