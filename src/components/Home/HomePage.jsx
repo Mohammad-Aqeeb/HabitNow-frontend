@@ -4,9 +4,6 @@ import React, { useState, useEffect } from 'react';
 import {
   FaCalendarAlt,
   FaPlus,
-  FaCheckCircle,
-  FaSyncAlt,
-  FaTrophy,
   FaEye,
   FaEdit,
   FaTrashAlt,
@@ -14,9 +11,9 @@ import {
   FaQuestionCircle,
   FaFilter,
 } from 'react-icons/fa';
-import { useRouter } from 'next/navigation';
-import axiosInstance from '../../services/axiosInstance';
-import styles from '../../styles/home.module.css';
+import axiosInstance from '@/services/axiosInstance';
+import styles from '@/styles/home.module.css';
+import ChooseTaskModal from '../ChooseTaskModal/ChooseTaskModal';
 
 const HomePage = () => {
   const [singleTasks, setSingleTasks] = useState([]);
@@ -26,7 +23,6 @@ const HomePage = () => {
   const [editModal, setEditModal] = useState({ isOpen: false, task: null, type: '' });
 
   const dates = ['Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
-  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,7 +47,7 @@ const HomePage = () => {
   const handleViewTask = (task) => {
     alert(
       `Task Details:\nName: ${task.name}\nDescription: ${task.description || 'No description'}\nDate: ${
-        task.date || 'N/A'
+        task.date || task.startDate ||'N/A'
       }`
     );
   };
@@ -96,21 +92,17 @@ const HomePage = () => {
     }
   };
 
-  const handleTaskNavigation = () => router.push('/task');
-  const handleHabitNavigation = () => router.push('/habit');
-  const handleRecurringNavigation = () => router.push('/recurringTask');
-
   return (
     <div className={styles.homepageContainer}>
       <div className={styles.navbar}>
-        <span className={styles.navbarTitle} style={{ visibility: 'hidden' }}>
+        <span className={styles.navbarTitle} >
           HabitNow
         </span>
         <div className={styles.navbarIcons}>
-          {/* <FaSearch className={styles.icon} />
-          <FaFilter className={styles.icon} /> */}
+          <FaSearch className={styles.icon} />
+          <FaFilter className={styles.icon} />
           <FaCalendarAlt className={styles.icon} />
-          {/* <FaQuestionCircle className={styles.icon} /> */}
+          <FaQuestionCircle className={styles.icon} />
         </div>
       </div>
 
@@ -142,7 +134,7 @@ const HomePage = () => {
           <>
             {singleTasks.length > 0 && (
               <div>
-                <h2 className="mt-5 p-3">Single Tasks</h2>
+                <h2 className={styles.singleTaskH2}>Single Tasks</h2>
                 <div className={styles.taskCards}>
                   {singleTasks.map((task) => (
                     <div className={styles.taskCard} key={task._id}>
@@ -158,15 +150,15 @@ const HomePage = () => {
               </div>
             )}
 
-            <hr />
+            <hr/>
 
             {recurringTasks.length > 0 && (
-              <div>
-                <h2 className="mt-5 p-3">Recurring Tasks</h2>
-                <div className={`${styles.taskCards} mb-5`}>
+              <div className={styles.recurringTaskContainer}>
+                <h2 className={styles.recurringTaskH2}>Recurring Tasks</h2>
+                <div className={styles.taskCards}>
                   {recurringTasks.map((task) => (
                     <div className={styles.taskCard} key={task._id}>
-                      <h4>{task.name}</h4>
+                      <h4 className={styles.taskTitle}>{task.name}</h4>
                       <div className={styles.taskActions}>
                         <FaEye className={styles.viewIcon} onClick={() => handleViewTask(task)} />
                         <FaEdit className={styles.editIcon} onClick={() => openEditModal(task, 'recurring')} />
@@ -186,35 +178,7 @@ const HomePage = () => {
       </button>
 
       {isModalOpen && (
-        <div className={`${styles.modal} ${styles.modalShow}`}>
-          <div className={`${styles.modalContent} ${styles.modalShowContent}`}>
-            <button className={styles.closeBtn} onClick={closeModal}>X</button>
-
-            <div className={`${styles.modalOption} ${styles.modalOptionShow}`} onClick={handleHabitNavigation}>
-              <div style={{ display: 'flex' }}>
-                <FaTrophy className={styles.modalIcon} />
-                <p  className={styles.modalOptionText}>Habit</p>
-              </div>
-              <span className={styles.modalOptionSubtext}>Activity that repeats over time. It has detailed tracking and statistics.</span>
-            </div>
-
-            <div className={`${styles.modalOption} ${styles.modalOptionShow}`} onClick={handleRecurringNavigation}>
-              <div style={{ display: 'flex' }}>
-                <FaSyncAlt className={styles.modalIcon} />
-                <p className={styles.modalOptionText}>Recurring Task</p>
-              </div>
-              <span className={styles.modalOptionSubtext}>Activity that repeats over time without tracking or statistics.</span>
-            </div>
-
-            <div className={`${styles.modalOption} ${styles.modalOptionShow}`} onClick={handleTaskNavigation}>
-              <div style={{ display: 'flex' }}>
-                <FaCheckCircle className={styles.modalIcon} />
-                <p className={styles.modalOptionText}>Task</p>
-              </div>
-              <span className={styles.modalOptionSubtext}>Single instance activity without tracking over time.</span>
-            </div>
-          </div>
-        </div>
+        <ChooseTaskModal closeModal={closeModal}/>
       )}
 
       {editModal.isOpen && (
