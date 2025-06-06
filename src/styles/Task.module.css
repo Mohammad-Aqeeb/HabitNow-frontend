@@ -107,6 +107,13 @@
   cursor: pointer;
 }
 
+.delete{
+  width : 100%;
+  display: flex;
+  justify-content: baseline;
+  gap: 10px;
+  border: 1px solid #646cff;
+}
 .cancel {
   background-color: #555;
   color: white;
