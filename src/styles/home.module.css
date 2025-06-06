@@ -6,9 +6,10 @@
   min-height: 85vh !important;
   display: flex;
   flex-direction: column;
-  overflow-y: hidden;
+  overflow: auto;
   padding: 1rem;
   box-sizing: border-box;
+  margin-bottom: 1800px;
 }
 
 .navbar {
@@ -22,6 +23,7 @@
 .navbarTitle {
   font-size: 1.5rem;
   color: #fff;
+  margin-left: 35px;
 }
 
 .navbarIcons {
@@ -330,7 +332,6 @@
   flex-direction: column;
   gap: 16px;
   margin: 20px;
-  margin-bottom: 1.25rem;
 }
 
 .taskCard {
@@ -376,6 +377,10 @@
 
 .deleteIcon:hover {
   color: #dc3545;
+}
+
+.recurringTaskContainer{
+  margin-bottom: 150px;  
 }
 
 .recurringTaskH2{
