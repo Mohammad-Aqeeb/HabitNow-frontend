@@ -7,13 +7,14 @@ import {
   FaEye,
   FaEdit,
   FaTrashAlt,
-  FaSearch,
-  FaQuestionCircle,
-  FaFilter,
+  // FaSearch,
+  // FaQuestionCircle,
+  // FaFilter,
 } from 'react-icons/fa';
 import axiosInstance from '@/services/axiosInstance';
 import styles from '@/styles/home.module.css';
 import ChooseTaskModal from '../ChooseTaskModal/ChooseTaskModal';
+import Navbar from '../Navbar/Navbar';
 
 const HomePage = () => {
   const [singleTasks, setSingleTasks] = useState([]);
@@ -94,17 +95,7 @@ const HomePage = () => {
 
   return (
     <div className={styles.homepageContainer}>
-      <div className={styles.navbar}>
-        <span className={styles.navbarTitle} >
-          HabitNow
-        </span>
-        <div className={styles.navbarIcons}>
-          <FaSearch className={styles.icon} />
-          <FaFilter className={styles.icon} />
-          <FaCalendarAlt className={styles.icon} />
-          <FaQuestionCircle className={styles.icon} />
-        </div>
-      </div>
+      <Navbar></Navbar>
 
       <div className={styles.dateScroll}>
         {dates.map((date, index) => (
