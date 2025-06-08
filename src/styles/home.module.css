@@ -7,35 +7,8 @@
   display: flex;
   flex-direction: column;
   overflow: auto;
-  padding: 1rem;
   box-sizing: border-box;
   margin-bottom: 1800px;
-}
-
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  border-bottom: 1px solid #333;
-}
-
-.navbarTitle {
-  font-size: 1.5rem;
-  color: #fff;
-  margin-left: 35px;
-}
-
-.navbarIcons {
-  display: flex;
-  align-items: center;
-}
-
-.navbarIcons .icon {
-  font-size: 1.2rem;
-  margin-left: 1rem;
-  color: #e91e63;
-  cursor: pointer;
 }
 
 .dateScroll {
@@ -151,7 +124,7 @@
   }
 
   .fab {
-    bottom: 120px;
+    bottom: 100px;
   }
 
   .centerContent {
