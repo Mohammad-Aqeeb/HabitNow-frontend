@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../../services/axiosInstance";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import style from "@/styles/Habit.module.css";
+import Navbar from "../Navbar/Navbar";
 
 const HabitsPage = () => {
   const [habits, setHabits] = useState([]);
@@ -102,7 +103,7 @@ const HabitsPage = () => {
 
   return (
     <div className={style.habitContainer}>
-        <h1 style={{ color: "#e91e63" }}>My Habits</h1>
+        <Navbar></Navbar>
 
         <div className={style.habitList}>
           {habits.map((habit) => (
