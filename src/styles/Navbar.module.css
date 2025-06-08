@@ -1,0 +1,28 @@
+.navbar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.7rem 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #333;
+}
+
+.navbarTitle {
+  font-size: 1.5rem;
+  color: #fff;
+  margin-left: 35px;
+}
+
+.navbarIcons {
+  display: flex;
+  align-items: center;
+}
+
+.navbarIcons .icon {
+  height: 100%;
+  font-size: 1.2rem;
+  margin-left: 1rem;
+  color: #e91e63;
+  cursor: pointer;
+}
