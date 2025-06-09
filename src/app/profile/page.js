@@ -3,7 +3,7 @@
 import ProtectedRoute from '@/components/ProtectedRoute';
 import dynamic from 'next/dynamic';
 
-const ProfilePage = dynamic(() => import('../../components/Profile/ProfilePage'), {
+const ProfilePage = dynamic(() => import('@/components/Profile/ProfilePage'), {
   ssr: false,
 });
 
