@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useForm } from '../../context/FormContext';
+import { useForm } from '@/context/FormContext';
 import styles from "@/styles/EvaluateProgressPage.module.css";
 
 const EvaluateProgressPage = ({ onPrevious, onNext, setValue }) => {
