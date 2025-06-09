@@ -17,6 +17,7 @@ import ChooseTaskModal from '../ChooseTaskModal/ChooseTaskModal';
 import Navbar from '../Navbar/Navbar';
 
 import dayjs from 'dayjs';
+import Rate from '../Rate/Rate';
 
 const HomePage = () => {
   const [singleTasks, setSingleTasks] = useState([]);
@@ -24,6 +25,7 @@ const HomePage = () => {
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editModal, setEditModal] = useState({ isOpen: false, task: null, type: '' });
+  const [isRatePage, setIsRatePage] = useState(false);
 
   const startDate = dayjs().subtract(80, 'day');
   const dates = Array.from({ length: 161 }, (_, i) => startDate.add(i, 'day'));
@@ -220,6 +222,12 @@ const HomePage = () => {
           </div>
         </div>
       )}
+
+      {
+        isRatePage && (
+          <Rate></Rate>
+        )
+      }
     </div>
   );
 };
