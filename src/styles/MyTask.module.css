@@ -196,6 +196,11 @@
   gap: 0px;
 }
 
+.modalRecurringTaskText{
+  width: fit-content;
+  font-size: 10px;
+}
+
 .modalRecurringTasksubText{
   width: fit-content;
   font-size: 10px;
