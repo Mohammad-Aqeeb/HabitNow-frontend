@@ -75,6 +75,7 @@ export default function EditRecurringTaskPage() {
       category: selectedCategory,
       reminders: [],
       priority,
+      customFrequency : frequency
     };
 
     try {
