@@ -3,7 +3,7 @@
 import ProtectedRoute from '@/components/ProtectedRoute';
 import dynamic from 'next/dynamic';
 
-const CategoriesPage = dynamic(() => import('../../components/Categories/CategoriesPage'), {
+const CategoriesPage = dynamic(() => import('@/components/Categories/CategoriesPage'), {
   ssr: false,
 });
 
