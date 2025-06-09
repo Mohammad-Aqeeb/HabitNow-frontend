@@ -9,57 +9,36 @@ import styles from "@/styles/Sidenav.module.css";
 const Sidenav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-  const sidenavRef = useRef(null);
-  const toggleRef = useRef(null);
-
-  const toggleSidenav = () => {
-    setIsOpen((prev) => !prev);
-  };
+  const navRef = useRef(null);
+  const btnRef = useRef(null);
 
   useEffect(() => {
-    const handleOutsideClick = (e) => {
+    const handleClickOutside = (e) => {
       if (
         isOpen &&
-        sidenavRef.current &&
-        !sidenavRef.current.contains(e.target) &&
-        toggleRef.current &&
-        !toggleRef.current.contains(e.target)
+        !navRef.current?.contains(e.target) &&
+        !btnRef.current?.contains(e.target)
       ) {
         setIsOpen(false);
       }
     };
-
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => document.removeEventListener("mousedown", handleOutsideClick);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
-
-  const links = [
-    { href: "/", label: "Home" },
-    { href: "/profile", label: "Profile" },
-    { href: "/timer", label: "Timer" },
-    { href: "/categories", label: "Categories" },
-    { href: "/customize", label: "Customize" },
-    { href: "/setting", label: "Settings" },
-    { href: "/backups", label: "Backups" },
-    { href: "/premium", label: "Get Premium" },
-    { href: "/rate", label: "Rate this App" },
-    { href: "/contact", label: "Contact Us" },
-    { href: "/login", label: "Login" },
-  ];
 
   return (
     <>
-      <button ref={toggleRef} className={styles.toggleBtn} onClick={toggleSidenav}>
+      <button ref={btnRef} className={styles.toggleBtn} onClick={() => setIsOpen(!isOpen)}>
         <FaBars />
       </button>
 
-      <div
-        ref={sidenavRef}
+      <nav
+        ref={navRef}
         className={`${styles.sidenav} ${isOpen ? styles.open : styles.closed}`}
       >
         <div className={styles.sidenavHeader}>
-          <h2 className="mt-4 p-2">HabitNow</h2>
-          <p className="mt-2">
+          <h2>HabitNow</h2>
+          <p>
             {new Date().toLocaleDateString("en-US", {
               weekday: "long",
               year: "numeric",
@@ -70,16 +49,19 @@ const Sidenav = () => {
         </div>
 
         <ul className={styles.sidenavLinks}>
-          {links.map((link) => (
-            <li
-              key={link.href}
-              className={pathname === link.href ? styles.active : ""}
-            >
-              <Link href={link.href}>{link.label}</Link>
-            </li>
-          ))}
+          <li className={pathname === "/" ? styles.active : ""}><Link href="/">Home</Link></li>
+          <li className={pathname === "/profile" ? styles.active : ""}><Link href="/profile">Profile</Link></li>
+          <li className={pathname === "/timer" ? styles.active : ""}><Link href="/timer">Timer</Link></li>
+          <li className={pathname === "/categories" ? styles.active : ""}><Link href="/categories">Categories</Link></li>
+          <li className={pathname === "/customize" ? styles.active : ""}><Link href="/customize">Customize</Link></li>
+          <li className={pathname === "/setting" ? styles.active : ""}><Link href="/setting">Settings</Link></li>
+          <li className={pathname === "/backups" ? styles.active : ""}><Link href="/backups">Backups</Link></li>
+          <li className={pathname === "/premium" ? styles.active : ""}><Link href="/premium">Get Premium</Link></li>
+          <li className={pathname === "/rate" ? styles.active : ""}><Link href="/rate">Rate this App</Link></li>
+          <li className={pathname === "/contact" ? styles.active : ""}><Link href="/contact">Contact Us</Link></li>
+          <li className={pathname === "/login" ? styles.active : ""}><Link href="/login">Login</Link></li>
         </ul>
-      </div>
+      </nav>
     </>
   );
 };
