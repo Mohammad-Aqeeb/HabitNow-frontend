@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 
-const LoginPage = dynamic(() => import('../../components/Login/LoginPage'), {
+const LoginPage = dynamic(() => import('@/components/Login/LoginPage'), {
   ssr: false,
 });
 
