@@ -2,11 +2,11 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import EvaluateProgressPage from "./EvaluateProgressPage";
-import CategorySelectionPage from "./CategorySelectionPage";
-import DefineTaskPage from "./DefineTaskPage";
-import HowOftenPage from "./HowOftenPage";
-import WhenToDoItPage from "./WhenToDoItPage";
+import EvaluateProgressPage from "@/components/RecurringTask/EvaluateProgressPage";
+import CategorySelectionPage from "@/components/RecurringTask/CategorySelectionPage";
+import DefineTaskPage from "@/components/RecurringTask/DefineTaskPage";
+import HowOftenPage from "@/components/RecurringTask/HowOftenPage";
+import WhenToDoItPage from "@/components/RecurringTask/WhenToDoItPage";
 import axiosInstance from "@/services/axiosInstance";
 
 function RecurringTaskPage() {
