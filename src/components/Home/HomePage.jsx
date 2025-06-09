@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   FaCalendarAlt,
   FaPlus,
@@ -16,14 +16,19 @@ import styles from '@/styles/home.module.css';
 import ChooseTaskModal from '../ChooseTaskModal/ChooseTaskModal';
 import Navbar from '../Navbar/Navbar';
 
+import dayjs from 'dayjs';
+
 const HomePage = () => {
   const [singleTasks, setSingleTasks] = useState([]);
   const [recurringTasks, setRecurringTasks] = useState([]);
-  const [selectedDate, setSelectedDate] = useState('Tue');
+  const [selectedDate, setSelectedDate] = useState(dayjs());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editModal, setEditModal] = useState({ isOpen: false, task: null, type: '' });
 
-  const dates = ['Fri', 'Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+  const startDate = dayjs().subtract(80, 'day');
+  const dates = Array.from({ length: 161 }, (_, i) => startDate.add(i, 'day'));
+  const dateRefs = useRef([]);
+  dateRefs.current = []; // Reset on each render
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,6 +44,13 @@ const HomePage = () => {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const index = dates.findIndex((date) => date.isSame(selectedDate, 'day'));
+    if (index !== -1 && dateRefs.current[index]) {
+      dateRefs.current[index].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+  }, [selectedDate, dates]);
 
   const handleDateClick = (date) => setSelectedDate(date);
   const handlePlusClick = () => setIsModalOpen(true);
@@ -95,16 +107,18 @@ const HomePage = () => {
 
   return (
     <div className={styles.homepageContainer}>
-      <Navbar></Navbar>
+      <Navbar selectedDate={selectedDate}></Navbar>
 
       <div className={styles.dateScroll}>
         {dates.map((date, index) => (
           <div
             key={index}
-            className={`${styles.dateItem} ${selectedDate === date ? styles.activeDate : ''}`}
+            ref={(el) => (dateRefs.current[index] = el)}
+            className={`${styles.dateItem} ${date.isSame(selectedDate, 'day') ? styles.activeDate : ''}`}
             onClick={() => handleDateClick(date)}
           >
-            {date}
+            <div>{date.format('ddd')}</div>
+            <div>{date.format('DD')}</div>
           </div>
         ))}
       </div>
