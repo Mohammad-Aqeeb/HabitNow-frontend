@@ -176,6 +176,7 @@ export default function MyTaskPage() {
               <div className={styles.modalRecurringTasktitle}>
                 <div>{selectedRecurringTask.name}</div>
                 <p className={styles.modalRecurringTasksubText}>{selectedRecurringTask.customFrequency}</p>
+                <p className={styles.modalRecurringTaskText}>{selectedRecurringTask.description}</p>
               </div>
               <div>
                 <img src={selectedRecurringTask.category.icon} alt="icon" />
