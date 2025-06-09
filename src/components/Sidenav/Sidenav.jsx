@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaBars } from "react-icons/fa";
-import styles from "../../styles/Sidenav.module.css";
+import styles from "@/styles/Sidenav.module.css";
 
 const Sidenav = () => {
   const [isOpen, setIsOpen] = useState(false);
