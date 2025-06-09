@@ -1,4 +1,5 @@
 'use client';
+import styles from "@/styles/Task.module.css";
 import { MdArchive, MdDelete, MdDeleteForever } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
@@ -8,7 +9,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import TimePicker from "react-time-picker";
 import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
-import styles from "@/styles/Task.module.css";
 
 export default function EditRecurringTaskPage() {
   const { id } = useParams();
