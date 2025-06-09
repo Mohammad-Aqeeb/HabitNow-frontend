@@ -5,8 +5,9 @@ import { FaCalendarAlt, FaQuestionCircle, FaSearch } from 'react-icons/fa';
 import { IoFilter } from "react-icons/io5";
 import { BiArchiveIn } from "react-icons/bi";
 import styles from '@/styles/Navbar.module.css';
+import dayjs from 'dayjs';
 
-function Navbar() {
+function Navbar({selectedDate}) {
   const pathname = usePathname();
 
   // Set default icons to false
@@ -34,7 +35,7 @@ function Navbar() {
     showFilter = true;
     showCalendar = true;
     showHelp = true;
-    title = 'Today';
+    title = selectedDate.isSame(dayjs(), 'day') ? "Today" : selectedDate.format('DD MMM YYYY');
   }
 
   return (
