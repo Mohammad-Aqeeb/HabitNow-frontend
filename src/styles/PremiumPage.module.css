@@ -1,0 +1,82 @@
+.navbar{
+  width: 100vw;
+  height: 65px;
+  padding-top: 20px;
+  padding-left: 50px;
+  padding-bottom: 20px;
+  position: fixed;
+  top: 0;
+  background-color: black;
+}
+.heading1 {
+  color: #ff4081;
+  font-size: 1.2rem;
+}
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  padding: 15px;
+  padding-top: 80px;
+  padding-bottom: 100px;
+  background-color: black;
+}
+
+.heading2 {
+  display: flex;
+  align-items: center;
+  color: #ff4081;
+  font-size: 1.2rem;
+}
+
+.card {
+  background-color: #242424;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.unorderdlist {
+  list-style-type: disc;
+  padding-left: 15px;
+}
+
+.listitem {
+  margin-bottom: 10px;
+}
+
+.para{
+  text-align: center;  
+}
+
+.buttonContainer{
+  width: 100vw;
+  height: 100px;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.btn {
+  width: 90%;
+  background-color: #e91e63;
+  color: black;
+  border: none;
+  padding: 12px 24px;
+  font-size: 16px;
+  border-radius: 25px;
+  cursor: pointer;
+  margin-top: 15px;
+
+}
