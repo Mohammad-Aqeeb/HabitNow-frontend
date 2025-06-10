@@ -2,16 +2,26 @@
   width: 100vw;
   height: 65px;
   padding-top: 20px;
-  padding-left: 50px;
+  padding-left: 20px;
   padding-bottom: 20px;
   position: fixed;
   top: 0;
   background-color: black;
+  display: flex;
 }
+
+.icon {
+  margin-right: 10px;
+  font-size: 18px;
+  color: #ff4d6d;
+  align-self: center;
+}
+
 .heading1 {
   color: #ff4081;
   font-size: 1.2rem;
 }
+
 
 .container {
   width: 100vw;
