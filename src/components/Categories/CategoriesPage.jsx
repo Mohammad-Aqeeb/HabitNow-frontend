@@ -238,17 +238,17 @@ export default CategoriesPage;
 
 //       {/* Icon Picker */}
 //       {showPicker && (
-          // {iconList.map((icon) => (
-          //   <div
-          //     key={icon.name}
-          //     onClick={() => {
-          //       setSelectedIcon(icon.component);
-          //       setShowPicker(false);
-          //     }}
-          //   >
-          //     {icon.component}
-          //   </div>
-          // ))}
+//          {iconList.map((icon) => (
+//             <div
+//               key={icon.name}
+//               onClick={() => {
+//                 setSelectedIcon(icon.component);
+//                 setShowPicker(false);
+//               }}
+//             >
+//               {icon.component}
+//             </div>
+//           ))}
 //         </div>
 //       )}
 //     </div>
