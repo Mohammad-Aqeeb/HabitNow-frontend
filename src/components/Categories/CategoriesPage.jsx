@@ -145,7 +145,7 @@ const CategoriesPage = () => {
           </form>
         </div>)
       }
-{/* 
+          {/* 
           {
             isFormVisible && (
               <div 
