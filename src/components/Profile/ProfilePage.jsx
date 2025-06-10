@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../../styles/Profile.module.css";
+import axiosInstance from "@/services/axiosInstance";
 
 function ProfilePage() {
   const [profile, setProfile] = useState({
     name: "John Doe",
-    email: "johndoe@example.com",
-    profilePicture: `https://dummyimage.com/150x150/ffffff/000000.png&text=Profile`
+    email: "johndoe@example.com"
   });
-
+  const profilePicture = `https://dummyimage.com/150x150/ffffff/000000.png&text=Profile`
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProfile({ ...profile, [name]: value });
@@ -28,12 +28,21 @@ function ProfilePage() {
     alert("Profile updated successfully!");
   };
 
+  async function getProfile(){
+    const res = await axiosInstance.get('user/profile');
+    setProfile(res.data);
+  }
+
+  useEffect(()=>{
+    getProfile();
+  },[])
+
   return (
     <div className={styles.profileContainer}>
       <h1 className={styles.profileHeading}>Edit Profile</h1>
       <div className={styles.profilePictureContainer}>
         <img
-          src={profile.profilePicture}
+          src={profile.profilePicture || profilePicture }
           alt="Profile"
           className={styles.profilePicture}
         />
@@ -49,7 +58,7 @@ function ProfilePage() {
         <input
           type="text"
           name="name"
-          value={profile.name}
+          value={profile.username}
           onChange={handleInputChange}
           className={styles.profileInput}
         />
