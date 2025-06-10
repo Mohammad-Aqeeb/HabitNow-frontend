@@ -1,8 +1,13 @@
-import styles from "@/styles/PremiumPage.module.css"
+import styles from "@/styles/PremiumPage.module.css";
+import { IoChevronBackSharp } from "react-icons/io5";
+import { useRouter } from "next/navigation";
+
 export default function BecomePremiumPage() {
+  const router = useRouter()
   return (
     <>
     <div className={styles.navbar}>
+      <IoChevronBackSharp onClick={()=>{router.back()}} className={styles.icon}/>
       <h1 className={styles.heading1}>Become Premium</h1>
     </div>
     <div className={styles.container}>
