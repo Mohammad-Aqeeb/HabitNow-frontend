@@ -25,7 +25,7 @@ const HomePage = () => {
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editModal, setEditModal] = useState({ isOpen: false, task: null, type: '' });
-  const [isRatePage, setIsRatePage] = useState(false);
+  const isRatePage = false
 
   const startDate = dayjs().subtract(80, 'day');
   const dates = Array.from({ length: 161 }, (_, i) => startDate.add(i, 'day'));
@@ -58,14 +58,6 @@ const HomePage = () => {
   const handlePlusClick = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const handleEditModalClose = () => setEditModal({ isOpen: false, task: null, type: '' });
-
-  const handleViewTask = (task) => {
-    alert(
-      `Task Details:\nName: ${task.name}\nDescription: ${task.description || 'No description'}\nDate: ${
-        task.date || task.startDate ||'N/A'
-      }`
-    );
-  };
 
   const openEditModal = (task, type) => setEditModal({ isOpen: true, task, type });
 
@@ -139,7 +131,7 @@ const HomePage = () => {
           </div>
         ) : (
           <>
-            {singleTasks.length > 0 && (
+            {/* {singleTasks.length > 0 && (
               <div>
                 <h2 className={styles.singleTaskH2}>Single Tasks</h2>
                 <div className={styles.taskCards}>
@@ -155,11 +147,23 @@ const HomePage = () => {
                   ))}
                 </div>
               </div>
-            )}
+            )} */}
+            { singleTasks.length > 0 && (
+              singleTasks.map((task) => (
+                <div
+                  key={task._id} 
+                  className={styles.taskItem}
+                  >
+                  <div>
+                    {task.name && <p className={styles.taskName}>{task.name}</p>}
+                    {task.note && <p className={styles.taskNote}>{task.note}</p>}
+                  </div>
+                  <p className={styles.taskCaption}>Task</p>
+                </div>
+              )))
+            }
 
-            <hr/>
-
-            {recurringTasks.length > 0 && (
+            {/* {recurringTasks.length > 0 && (
               <div className={styles.recurringTaskContainer}>
                 <h2 className={styles.recurringTaskH2}>Recurring Tasks</h2>
                 <div className={styles.taskCards}>
@@ -175,7 +179,21 @@ const HomePage = () => {
                   ))}
                 </div>
               </div>
-            )}
+            )} */}
+            { recurringTasks.length > 0 && (
+              recurringTasks.map((task) => (
+                <div
+                  key={task._id} 
+                  className={styles.taskItem}
+                  >
+                  <div>
+                    {task.name && <p className={styles.taskName}>{task.name}</p>}
+                    {task.note && <p className={styles.taskNote}>{task.note}</p>}
+                  </div>
+                  <p className={styles.taskCaption}>recurring Task</p>
+                </div>
+              )))
+            }
           </>
         )}
       </div>
