@@ -216,3 +216,46 @@
     padding: 15px;
   }
 }
+
+
+/* styles.module.css */
+
+.iconGrid {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap ;
+  gap: 10px;
+  z-index: 999;
+  border-radius: 8px;
+  max-width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* Icon item styling */
+.iconItem {
+  width: 40px;
+  height: 40px;
+  background-color: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  color: #333;
+  font-size: 24px;
+}
+
+.iconItem:hover {
+  background-color: #e0e0e0;
+}
