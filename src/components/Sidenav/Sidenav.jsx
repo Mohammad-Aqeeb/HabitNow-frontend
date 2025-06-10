@@ -49,17 +49,17 @@ const Sidenav = () => {
         </div>
 
         <ul className={styles.sidenavLinks}>
-          <li className={pathname === "/" ? styles.active : ""}><Link href="/">Home</Link></li>
-          <li className={pathname === "/profile" ? styles.active : ""}><Link href="/profile">Profile</Link></li>
-          <li className={pathname === "/timer" ? styles.active : ""}><Link href="/timer">Timer</Link></li>
-          <li className={pathname === "/categories" ? styles.active : ""}><Link href="/categories">Categories</Link></li>
-          <li className={pathname === "/customize" ? styles.active : ""}><Link href="/customize">Customize</Link></li>
-          <li className={pathname === "/setting" ? styles.active : ""}><Link href="/setting">Settings</Link></li>
-          <li className={pathname === "/backups" ? styles.active : ""}><Link href="/backups">Backups</Link></li>
-          <li className={pathname === "/premium" ? styles.active : ""}><Link href="/premium">Get Premium</Link></li>
-          <li className={pathname === "/rate" ? styles.active : ""}><Link href="/rate">Rate this App</Link></li>
-          <li className={pathname === "/contact" ? styles.active : ""}><Link href="/contact">Contact Us</Link></li>
-          <li className={pathname === "/login" ? styles.active : ""}><Link href="/login">Login</Link></li>
+          <li className={pathname === "/" ? styles.active : ""} onClick={()=>{setIsOpen(false)}}><Link href="/">Home</Link></li>
+          <li className={pathname === "/profile" ? styles.active : ""} onClick={()=>{setIsOpen(false)}}><Link href="/profile">Profile</Link></li>
+          <li className={pathname === "/timer" ? styles.active : ""} onClick={()=>{setIsOpen(false)}}><Link href="/timer">Timer</Link></li>
+          <li className={pathname === "/categories" ? styles.active : ""} onClick={()=>{setIsOpen(false)}}><Link href="/categories">Categories</Link></li>
+          <li className={pathname === "/customize" ? styles.active : ""} onClick={()=>{setIsOpen(false)}}><Link href="/customize">Customize</Link></li>
+          <li className={pathname === "/setting" ? styles.active : ""} onClick={()=>{setIsOpen(false)}}><Link href="/setting">Settings</Link></li>
+          <li className={pathname === "/backups" ? styles.active : ""} onClick={()=>{setIsOpen(false)}}><Link href="/backups">Backups</Link></li>
+          <li className={pathname === "/premium" ? styles.active : ""} onClick={()=>{setIsOpen(false)}}><Link href="/premium" >Get Premium</Link></li>
+          <li className={pathname === "/rate" ? styles.active : ""} onClick={()=>{setIsOpen(false)}}><Link href="/rate">Rate this App</Link></li>
+          <li className={pathname === "/contact" ? styles.active : ""} onClick={()=>{setIsOpen(false)}}><Link href="/contact">Contact Us</Link></li>
+          <li className={pathname === "/login" ? styles.active : ""} onClick={()=>{setIsOpen(false)}}><Link href="/login">Login</Link></li>
         </ul>
       </nav>
     </>
