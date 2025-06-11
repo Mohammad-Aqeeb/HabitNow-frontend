@@ -99,6 +99,40 @@ const HomePage = () => {
     }
   };
 
+  const handleTaskCheck = async (id) => {
+    try {
+      const updatedTasks = singleTasks.map((task) => {
+        if (task._id === id) {
+          return { ...task, completed: !task.completed };
+        }
+        return task;
+      });
+      setSingleTasks(updatedTasks);
+
+      const taskToUpdate = updatedTasks.find((t) => t._id === id);
+      await axiosInstance.put(`/task/tasks/${id}`, taskToUpdate);
+    } catch (error) {
+      console.error('Failed to update task completion:', error);
+    }
+  };
+
+  const handleRecurringCheck = async (id) => {
+    try {
+      const updatedTasks = recurringTasks.map((task) => {
+        if (task._id === id) {
+          return { ...task, completed: !task.completed };
+        }
+        return task;
+      });
+      setRecurringTasks(updatedTasks);
+
+      const taskToUpdate = updatedTasks.find((t) => t._id === id);
+      await axiosInstance.put(`/recurringTask/recurring-task/${id}`, taskToUpdate);
+    } catch (error){
+      console.error('Failed to update task completion:', error);
+    }
+  };
+
   return (
     <div className={styles.homepageContainer}>
       <Navbar selectedDate={selectedDate}></Navbar>
@@ -148,20 +182,27 @@ const HomePage = () => {
                 </div>
               </div>
             )} */}
-            { singleTasks.length > 0 && (
+            {singleTasks.length > 0 &&
               singleTasks.map((task) => (
-                <div
-                  key={task._id} 
-                  className={styles.taskItem}
-                  >
+                <div key={task._id} className={styles.taskItem}>
                   <div>
-                    {task.name && <p className={styles.taskName}>{task.name}</p>}
-                    {task.note && <p className={styles.taskNote}>{task.note}</p>}
+                    <div>
+                      {task.name && <p className={styles.taskName}>{task.name}</p>}
+                      {task.note && <p className={styles.taskNote}>{task.note}</p>}
+                    </div>
+                    <p className={styles.taskCaption}>Task</p>
                   </div>
-                  <p className={styles.taskCaption}>Task</p>
+
+                  <div
+                      className={`${styles.checkCircle} ${task.completed ? styles.checked : ""}`}
+                      onClick={() => handleTaskCheck(task._id)}
+                    >
+                      {task.completed && "✔"}
+                  </div>
                 </div>
-              )))
+              ))
             }
+
 
             {/* {recurringTasks.length > 0 && (
               <div className={styles.recurringTaskContainer}>
@@ -182,15 +223,20 @@ const HomePage = () => {
             )} */}
             { recurringTasks.length > 0 && (
               recurringTasks.map((task) => (
-                <div
-                  key={task._id} 
-                  className={styles.taskItem}
-                  >
+                <div key={task._id} className={styles.taskItem}>
                   <div>
-                    {task.name && <p className={styles.taskName}>{task.name}</p>}
-                    {task.note && <p className={styles.taskNote}>{task.note}</p>}
+                    <div>
+                      {task.name && <p className={styles.taskName}>{task.name}</p>}
+                      {task.note && <p className={styles.taskNote}>{task.note}</p>}
+                    </div>
+                    <p className={styles.taskCaption}>recurring Task</p>
                   </div>
-                  <p className={styles.taskCaption}>recurring Task</p>
+                  <div
+                      className={`${styles.checkCircle} ${task.completed ? styles.checked : ""}`}
+                      onClick={() => handleRecurringCheck(task._id)}
+                  >
+                      {task.completed && "✔"}
+                  </div>
                 </div>
               )))
             }
