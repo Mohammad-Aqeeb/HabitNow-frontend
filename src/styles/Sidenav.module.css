@@ -11,6 +11,7 @@
   flex-direction: column;
   transition: transform 0.3s ease-in-out;
   z-index: 1000;
+  overflow-y: auto;
 }
 
 .closed {
@@ -67,7 +68,7 @@
 
 .toggleBtn {
   position: absolute;
-  top: 25px;
+  top: 20px;
   left: 15px;
   background-color: #e91e63;
   border: none;
