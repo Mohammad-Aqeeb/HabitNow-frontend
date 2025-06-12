@@ -1,6 +1,5 @@
 .timerPage {
   width: 100%;
-  margin-top: 1.25rem;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -8,10 +7,35 @@
   justify-content: center;
 }
 
+.header{
+  width: 100%;
+  height: 65px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.headingContainer{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon {
+  font-size: 20px;
+  color: #e91e63;
+}
+
 .headerH2{
-  font-size: 1.5em;
-  margin-bottom: 20px;
-  margin-top: 1.25rem;
+  font-size: 1.3em;
+}
+
+.soundContainer{
+  display: flex;
+  gap: 15px;
+  font-size: 1.3rem;
 }
 
 .timerDisplay {
@@ -24,7 +48,7 @@
 .circle {
   width: 200px;
   height: 200px;
-  border: 4px solid #a22;
+  border: 4px solid #e91e63;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -54,7 +78,7 @@
 }
 
 .startBtn {
-  background-color: #a22;
+  background-color: #e91e63;
   color: #fff;
 }
 
@@ -88,19 +112,56 @@
 }
 
 .active {
-  background-color: #a22;
+  background-color: #e91e63;
 }
 
 .records {
-  margin-top: 20px;
+  width: 87%;
   text-align: center;
-}
-
-.recordsh3 {
-  font-size: 1.2em;
-  margin-bottom: 10px;
+  margin-top: 1.2rem;
+  padding: 16px;
+  background-color: #5555559b;
+  border-radius: 10px;
 }
 
 .record {
   margin: 5px 0;
+}
+
+.lastRecordContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.lastRecordTabWithIcon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.timerIcon{
+  font-size: 20px;
+}
+
+.lastRecordTab{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+}
+
+.recordsh3 {
+  font-size: 10px;
+}
+
+.crossBtn{
+  width: 35px;
+  height: 35px;
+  padding: 0px;
+  font-size: large;
+  background-color: #555;
+  align-self: center;
+  border-radius: 50%;
 }
