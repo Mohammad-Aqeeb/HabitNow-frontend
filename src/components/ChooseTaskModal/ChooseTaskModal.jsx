@@ -7,7 +7,7 @@ function ChooseTaskModal(props){
   const router = useRouter();
     
   const handleTaskNavigation = () => router.push('/task');
-  const handleHabitNavigation = () => router.push('/createHabit');
+  const handleHabitNavigation = () => router.push('/habit');
   const handleRecurringNavigation = () => router.push('/recurringTask');
     
   return (
