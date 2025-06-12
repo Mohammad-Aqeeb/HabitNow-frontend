@@ -166,14 +166,32 @@ const TimerPage = () => {
         </div>
       )} */}
 
-        <div className={styles.records}>
-          <h3 className={styles.recordsh3}>Last Record</h3>
-          {records ? (
-            <div>{records}</div>
-          ) : (
+      <div className={styles.records}>
+      <h3 className={styles.recordsh3}> Last Record </h3>
+      {records ? (
+        <div>{formatTime(records)}</div>
+      ) : (
+        records && (
+          <>
             <p>No activity recorded</p>
-          )}
-        </div>
+            <button
+              onClick={() => setRecords(null)}
+              style={{
+                marginLeft: "10px",
+                background: "transparent",
+                border: "none",
+                fontSize: "16px",
+                cursor: "pointer",
+                color: "red",
+              }}
+              aria-label="Clear record"
+            >
+              ×
+            </button>
+          </>
+        )
+      )}
+    </div>
     </div>
   );
 };
