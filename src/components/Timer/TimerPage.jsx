@@ -1,9 +1,13 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import styles from "../../styles/Timer.module.css";
+import { MdOutlineTimer, MdOutlineVibration, MdOutlineVolumeUp } from "react-icons/md";
+import { IoChevronBackSharp } from "react-icons/io5";
 
 const TimerPage = () => {
+  const router = useRouter();
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [tab, setTab] = useState("stopwatch");
@@ -78,7 +82,15 @@ const TimerPage = () => {
       <audio ref={alarmAudioRef}></audio>
 
       <div className={styles.header}>
-        <h2 className={styles.headerH2}>Timer</h2>
+        <div className={styles.headingContainer}>
+          <IoChevronBackSharp onClick={()=>{router.back()}} className={styles.icon}/>
+          <h2 className={styles.headerH2}>Timer</h2>
+        </div>
+        
+        <div className={styles.soundContainer}>
+          <MdOutlineVibration />
+          <MdOutlineVolumeUp />
+        </div>
       </div>
 
       <div className={styles.timerDisplay}>
@@ -167,31 +179,27 @@ const TimerPage = () => {
       )} */}
 
       <div className={styles.records}>
-      <h3 className={styles.recordsh3}> Last Record </h3>
-      {records ? (
-        <div>{formatTime(records)}</div>
-      ) : (
-        records && (
-          <>
-            <p>No activity recorded</p>
-            <button
-              onClick={() => setRecords(null)}
-              style={{
-                marginLeft: "10px",
-                background: "transparent",
-                border: "none",
-                fontSize: "16px",
-                cursor: "pointer",
-                color: "red",
-              }}
-              aria-label="Clear record"
+        {records ? (
+          <div className={styles.lastRecordContainer}>
+            <div className={styles.lastRecordTabWithIcon}>
+              <MdOutlineTimer className={styles.timerIcon}/>
+              <div className={styles.lastRecordTab}>
+                <p className={styles.recordsh3}>Last Record</p>
+                <div>{formatTime(records)}</div>
+              </div>
+            </div>
+            <button className={styles.crossBtn}
+                  onClick={() => setRecords(null)}
+                  aria-label="Clear record"
             >
-              ×
+                  ×
             </button>
-          </>
+          </div>
+        ) : (
+          <p>No activity recorded</p>
         )
-      )}
-    </div>
+        }
+      </div>
     </div>
   );
 };
