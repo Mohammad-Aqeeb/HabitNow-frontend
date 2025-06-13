@@ -1,11 +1,19 @@
 "use client";
 import { motion, AnimatePresence } from 'framer-motion';
-import Sidenav from '../components/Sidenav/Sidenav';
-import BottomNavbarPage from '../components/BottomNavbar/BottomNavbarPage';
+import Sidenav from '@/components/Sidenav/Sidenav';
+import BottomNavbarPage from '@/components/BottomNavbar/BottomNavbarPage';
 import './globals.css';
 import { TaskProvider } from '@/context/TaskProvider';
 import { AuthProvider } from '@/context/AuthContext';
 import { FormProvider } from '@/context/FormContext';
+
+import { configureStore } from '@reduxjs/toolkit';
+import rootReducer from '@/store/index';
+import { Provider } from 'react-redux';
+
+const store = configureStore({
+  reducer: rootReducer
+});
 
 const pageVariants = {
   initial: { opacity: 0, y: 30 },
@@ -17,6 +25,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <Provider store={store}>
         <AuthProvider>
           <TaskProvider>
             <FormProvider>
@@ -44,6 +53,7 @@ export default function RootLayout({ children }) {
             </FormProvider>
           </TaskProvider>
         </AuthProvider>
+        </Provider>
       </body>
     </html>
   );
