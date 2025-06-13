@@ -8,32 +8,24 @@ import {
   MdOutlineAnimation, MdEmojiEvents, MdFlag
 } from "react-icons/md";
 
-const settings = [
-  { icon: <MdOutlineListAlt />, label: 'Sorting options' },
-  { icon: <MdOutlineCalendarToday />, label: 'First day of week', value: 'Sunday' },
-  { icon: <MdOutlineCheckBox />, label: 'Hide completed activities', value: 'Send to bottom' },
-  { icon: <MdFormatSize />, label: 'To-do list items text size', value: 'Default' },
-  { icon: <MdOutlineSwapCalls />, label: 'Swap tap and long tap', toggle: true },
-  { icon: <MdVibration />, label: 'Vibration effects', toggle: true, default: true },
-  { icon: <MdExpandMore />, label: 'Collapse habit cards', toggle: true },
-  { icon: <MdOutlineAnimation />, label: 'Animations', toggle: true, default: true },
-  { icon: <MdEmojiEvents />, label: 'Show Awards', toggle: true, default: true },
-  { icon: <MdFlag />, label: 'Show priorities', toggle: true, default: true },
-];
-
 const ToDoAndHabitListPage = () => {
   const router = useRouter();
 
-  const [toggles, setToggles] = useState(
-    settings.reduce((acc, item, index) => {
-      if (item.toggle) acc[index] = item.default || false;
-      return acc;
-    }, {})
-  );
+  const [swapTap, setSwapTap] = useState(false);
+  const [vibration, setVibration] = useState(true);
+  const [collapseCards, setCollapseCards] = useState(false);
+  const [animations, setAnimations] = useState(true);
+  const [showAwards, setShowAwards] = useState(true);
+  const [showPriorities, setShowPriorities] = useState(true);
 
-  const handleToggle = (index) => {
-    setToggles(prev => ({ ...prev, [index]: !prev[index] }));
-  };
+  const renderToggle = (value, setter) => (
+    <div
+      className={`${styles.toggleSwitch} ${value ? styles.on : ''}`}
+      onClick={() => setter(!value)}
+    >
+      <div className={styles.circle}></div>
+    </div>
+  );
 
   return (
     <div className={styles.settingsPage}>
@@ -43,23 +35,64 @@ const ToDoAndHabitListPage = () => {
       </div>
 
       <div className={styles.settingsList}>
-        {settings.map((item, index) => (
-          <div className={styles.settingItem} key={index}>
-            <span className={styles.icon}>{item.icon}</span>
-            <span className={styles.label}>{item.label}</span>
+        <div className={styles.settingItem} onClick={()=>{router.push("ToDoAndHabitList/sorting")}}>
+          <span className={styles.icon}><MdOutlineListAlt /></span>
+          <span className={styles.label}>Sorting options</span>
+        </div>
 
-            {item.value && <span className={styles.value}>{item.value}</span>}
+        <div className={styles.settingItem}>
+          <span className={styles.icon}><MdOutlineCalendarToday /></span>
+          <span className={styles.label}>First day of week</span>
+          <span className={styles.value}>Sunday</span>
+        </div>
 
-            {item.toggle !== undefined && (
-              <div
-                className={`${styles.toggleSwitch} ${toggles[index] ? styles.on : ''}`}
-                onClick={() => handleToggle(index)}
-              >
-                <div className={styles.circle}></div>
-              </div>
-            )}
-          </div>
-        ))}
+        <div className={styles.settingItem}>
+          <span className={styles.icon}><MdOutlineCheckBox /></span>
+          <span className={styles.label}>Hide completed activities</span>
+          <span className={styles.value}>Send to bottom</span>
+        </div>
+
+        <div className={styles.settingItem}>
+          <span className={styles.icon}><MdFormatSize /></span>
+          <span className={styles.label}>To-do list items text size</span>
+          <span className={styles.value}>Default</span>
+        </div>
+
+        <div className={styles.settingItem}>
+          <span className={styles.icon}><MdOutlineSwapCalls /></span>
+          <span className={styles.label}>Swap tap and long tap</span>
+          {renderToggle(swapTap, setSwapTap)}
+        </div>
+
+        <div className={styles.settingItem}>
+          <span className={styles.icon}><MdVibration /></span>
+          <span className={styles.label}>Vibration effects</span>
+          {renderToggle(vibration, setVibration)}
+        </div>
+
+        <div className={styles.settingItem}>
+          <span className={styles.icon}><MdExpandMore /></span>
+          <span className={styles.label}>Collapse habit cards</span>
+          {renderToggle(collapseCards, setCollapseCards)}
+        </div>
+
+        <div className={styles.settingItem}>
+          <span className={styles.icon}><MdOutlineAnimation /></span>
+          <span className={styles.label}>Animations</span>
+          {renderToggle(animations, setAnimations)}
+        </div>
+
+        <div className={styles.settingItem}>
+          <span className={styles.icon}><MdEmojiEvents /></span>
+          <span className={styles.label}>Show Awards</span>
+          {renderToggle(showAwards, setShowAwards)}
+        </div>
+
+        <div className={styles.settingItem}>
+          <span className={styles.icon}><MdFlag /></span>
+          <span className={styles.label}>Show priorities</span>
+          {renderToggle(showPriorities, setShowPriorities)}
+        </div>
       </div>
     </div>
   );
