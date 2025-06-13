@@ -8,7 +8,7 @@ import styles from "@/styles/Sidenav.module.css";
 
 const Sidenav = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const hiddenToggleRoutes = ["/login", "/rate", "/contact", "/premium", "/timer", "/categories","/setting"];
+  const hiddenToggleRoutes = ["/login", "/rate", "/contact", "/premium", "/timer", "/categories","/setting","/setting"];
   const pathname = usePathname();
   const navRef = useRef(null);
   const btnRef = useRef(null);
@@ -29,7 +29,7 @@ const Sidenav = () => {
 
   return (
     <>
-      {!hiddenToggleRoutes.includes(pathname) && (
+      {!hiddenToggleRoutes.some(route => pathname.startsWith(route)) && (
         <button ref={btnRef} className={styles.toggleBtn} onClick={() => setIsOpen(!isOpen)}>
           <FaBars />
         </button>
