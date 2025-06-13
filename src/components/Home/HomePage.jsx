@@ -25,7 +25,7 @@ const HomePage = () => {
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editModal, setEditModal] = useState({ isOpen: false, task: null, type: '' });
-  const isRatePage = false
+  const isRatePage = false;
 
   const startDate = dayjs().subtract(80, 'day');
   const dates = Array.from({ length: 161 }, (_, i) => startDate.add(i, 'day'));
