@@ -30,7 +30,7 @@ const HomePage = () => {
   const startDate = dayjs().subtract(80, 'day');
   const dates = Array.from({ length: 161 }, (_, i) => startDate.add(i, 'day'));
   const dateRefs = useRef([]);
-  dateRefs.current = []; // Reset on each render
+  dateRefs.current = [];
 
   useEffect(() => {
     const fetchData = async () => {
