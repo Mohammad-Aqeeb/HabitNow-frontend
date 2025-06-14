@@ -1,11 +1,11 @@
 const { FaTrophy, FaSyncAlt, FaCheckCircle } = require("react-icons/fa");
 import styles from "@/styles/ChooseTaskModal.module.css";
 import { useRouter } from "next/navigation";
-function ChooseTaskModal(props){
 
+function ChooseTaskModal(props){
   const closeModal = props.closeModal;
   const router = useRouter();
-    
+
   const handleTaskNavigation = () => router.push('/task');
   const handleHabitNavigation = () => router.push('/habit');
   const handleRecurringNavigation = () => router.push('/recurringTask');
