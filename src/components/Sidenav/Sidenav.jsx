@@ -8,7 +8,7 @@ import styles from "@/styles/Sidenav.module.css";
 
 const Sidenav = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const hiddenToggleRoutes = ["/login", "/rate", "/contact", "/premium", "/timer", "/categories","/setting","/setting"];
+  const hiddenToggleRoutes = ["/login", "/rate", "/contact", "/premium", "/timer", "/categories","/setting"];
   const pathname = usePathname();
   const navRef = useRef(null);
   const btnRef = useRef(null);
