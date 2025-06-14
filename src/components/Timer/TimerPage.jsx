@@ -2,12 +2,13 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import styles from "../../styles/Timer.module.css";
+import styles from "@/styles/Timer.module.css";
 import { MdOutlineTimer, MdOutlineVibration, MdOutlineVolumeUp } from "react-icons/md";
 import { IoChevronBackSharp } from "react-icons/io5";
 
 const TimerPage = () => {
   const router = useRouter();
+  
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [tab, setTab] = useState("stopwatch");
