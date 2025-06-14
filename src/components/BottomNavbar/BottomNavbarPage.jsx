@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaHome, FaTasks, FaCheckCircle, FaList, FaStopwatch } from "react-icons/fa";
-import styles from "../../styles/BottomNavbar.module.css";
+import styles from "@/styles/BottomNavbar.module.css";
 
 const BottomNavbarPage = () => {
   const pathname = usePathname();
