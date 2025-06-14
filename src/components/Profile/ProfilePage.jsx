@@ -1,16 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styles from "../../styles/Profile.module.css";
-import axiosInstance from "@/services/axiosInstance";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUser, updateUser } from "@/slices/userSlice";
 
 function ProfilePage() {
-  const [profile, setProfile] = useState({
-    name: "John Doe",
-    email: "johndoe@example.com"
-  });
+  const dispatch = useDispatch();
+  const profile = useSelector((state) => state.user.user);
+  const error = useSelector((state) => state.user.error);
+  const loading = useSelector((state) => state.user.loading);
+  
   const profilePicture = `https://dummyimage.com/150x150/ffffff/000000.png&text=Profile`
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setProfile({ ...profile, [name]: value });
+    dispatch(updateUser({ ...profile, [name]: value }));
   };
 
   const handleProfilePictureChange = (e) => {
@@ -18,7 +21,7 @@ function ProfilePage() {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setProfile({ ...profile, profilePicture: reader.result });
+        dispatch(updateUser({ ...profile, profilePicture: reader.result }));
       };
       reader.readAsDataURL(file);
     }
@@ -28,14 +31,15 @@ function ProfilePage() {
     alert("Profile updated successfully!");
   };
 
-  async function getProfile(){
-    const res = await axiosInstance.get('user/profile');
-    setProfile(res.data);
-  }
-
-  useEffect(()=>{
-    getProfile();
-  },[])
+  useEffect(() => {
+    try{
+      dispatch(fetchUser());
+    }
+    catch(error){
+      alert("Error getting profile: ");
+      console.log(err?.message || "Something went wrong.");
+    }
+  }, [dispatch]);
 
   return (
     <div className={styles.profileContainer}>
@@ -57,7 +61,7 @@ function ProfilePage() {
         <label className={styles.inputLabel}>Name</label>
         <input
           type="text"
-          name="name"
+          name="username"
           value={profile.username}
           onChange={handleInputChange}
           className={styles.profileInput}
@@ -74,7 +78,7 @@ function ProfilePage() {
         />
       </div>
       <button className={styles.saveButton} onClick={handleSave}>
-        Save Changes
+         {loading ? "Saving..." : "Save Changes"}
       </button>
     </div>
   );
