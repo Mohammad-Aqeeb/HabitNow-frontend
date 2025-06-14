@@ -53,7 +53,7 @@ const userSlice = createSlice({
         })
         .addCase(updateUserAsync.rejected, (state, action) => {
             state.loading = false;
-            state.error = action.payload || 'Failed to fetch user';
+            state.error = action.payload || 'Failed to update user';
         })
     }
 })
