@@ -10,13 +10,12 @@ import dayjs from 'dayjs';
 function Navbar({selectedDate}) {
   const pathname = usePathname();
 
-  // Set default icons to false
   let showSearch = false;
   let showFilter = false;
   let showCalendar = false;
   let showHelp = false;
   let showArchive = false;
-  let title = 'Today';
+  let title = '';
 
   // Conditional logic based on current route
   if (pathname.startsWith('/myTask')) {
