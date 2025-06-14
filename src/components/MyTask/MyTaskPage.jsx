@@ -1,45 +1,41 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { FaPlus, FaCalendarAlt, FaEdit, FaArchive, FaDeaf, FaSearch} from "react-icons/fa";
-import { useTaskContext } from "@/context/TaskProvider";
-import { useRouter } from "next/navigation"
-import axiosInstance from "@/services/axiosInstance";
 import styles from "@/styles/MyTask.module.css";
-import ChooseTaskModal from "../ChooseTaskModal/ChooseTaskModal";
+import { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { FaPlus, FaCalendarAlt, FaEdit, FaArchive, FaDeaf} from "react-icons/fa";
+import { useRouter } from "next/navigation"
 import Navbar from "@/components/Navbar/Navbar";
+import ChooseTaskModal from "@/components/ChooseTaskModal/ChooseTaskModal"
+import { fetchSingleTasks } from "@/slices/taskSlice";
+import { deleteRecurringTask, fetchRecurringTask } from "@/slices/recurringtaskSlice";
 
 export default function MyTaskPage() {
-  const { tasks, setTasks } = useTaskContext();
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const modalRef = useRef(null);
+
+  const singleTasks = useSelector((state)=> state.tasks.items);
+  const recurringTasks = useSelector((state)=> state.recurringtasks.items);
+  
   const [activeTab, setActiveTab] = useState("single");
-  const [singleTasks, setSingleTasks] = useState([]);
-  const [recurringTasks, setRecurringTasks] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isRecurringTaskModal, setIsRecurringTaskModal] = useState(false);
   const [selectedRecurringTask, setSelectedRecurringTask] = useState(null);
 
-  const router = useRouter();
-  const modalRef = useRef(null);
-
   const handlePlusClick = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const fetchTasks = async () => {
-    try {
-      if (activeTab === "single") {
-        const response = await axiosInstance.get("/task/tasks");
-         setSingleTasks(response.data.tasks || []);
-      } else {
-        const response = await axiosInstance.get("/recurringTask/recurring-tasks");
-        setRecurringTasks(response.data.recurringTasks || []);
-      }
-    } catch (error) {
-      console.error("Error fetching tasks:", error);
-    }
-  };
-
   useEffect(() => {
-    fetchTasks();
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchSingleTasks()).unwrap();
+        await dispatch(fetchRecurringTask()).unwrap();
+      } catch (error) {
+        console.error('Error fetching tasks:', error);
+      }
+    };
+    fetchData();
   }, [activeTab]);
 
   useEffect(() => {
@@ -48,22 +44,17 @@ export default function MyTaskPage() {
         setIsRecurringTaskModal(false);
       }
     };
-
     document.addEventListener("mousedown", handleOutsideClick);
-
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [isRecurringTaskModal]);
 
-
   const handleRecurringTaskDelete = async () => {
     try {
-      await axiosInstance.delete(`/recurringTask/recurring-task/${selectedRecurringTask._id}`);
-
-      alert('Task deleted successfully.');
+      await dispatch(deleteRecurringTask(selectedRecurringTask._id)).unwrap();
+      alert('Task deleted successfully');
       setIsRecurringTaskModal(false);
-      fetchTasks();
     } catch (error) {
       console.error('Error deleting task:', error);
       alert('Failed to delete task. Please try again.');
@@ -90,10 +81,8 @@ export default function MyTaskPage() {
 
     return (
       <div className={styles.taskList}>
-
         {
           activeTab === "single" ? 
-
             (currentTasks.map((task) => (
               <div
                 key={task._id} 
@@ -116,7 +105,7 @@ export default function MyTaskPage() {
                   setIsRecurringTaskModal(true)
                   setSelectedRecurringTask(task)
                 }}
-                >
+              >
                 <div>
                   {task.name && <p className={styles.taskName}>{task.name}</p>}
                   {task.note && <p className={styles.taskNote}>{task.note}</p>}
