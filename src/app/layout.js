@@ -1,9 +1,9 @@
 "use client";
+
+import './globals.css';
 import { motion, AnimatePresence } from 'framer-motion';
 import Sidenav from '@/components/Sidenav/Sidenav';
 import BottomNavbarPage from '@/components/BottomNavbar/BottomNavbarPage';
-import './globals.css';
-import { TaskProvider } from '@/context/TaskProvider';
 import { AuthProvider } from '@/context/AuthContext';
 import { FormProvider } from '@/context/FormContext';
 
@@ -26,8 +26,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Provider store={store}>
-        <AuthProvider>
-          <TaskProvider>
+          <AuthProvider>
             <FormProvider>
               <div className="MainDiv" style={{ position: 'relative' }}>
                 <Sidenav />
@@ -51,8 +50,7 @@ export default function RootLayout({ children }) {
                 <BottomNavbarPage />
               </div>
             </FormProvider>
-          </TaskProvider>
-        </AuthProvider>
+          </AuthProvider>
         </Provider>
       </body>
     </html>
