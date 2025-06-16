@@ -7,8 +7,10 @@ import { FaPlus, FaCalendarAlt, FaEdit, FaArchive, FaDeaf} from "react-icons/fa"
 import { useRouter } from "next/navigation"
 import Navbar from "@/components/Navbar/Navbar";
 import ChooseTaskModal from "@/components/ChooseTaskModal/ChooseTaskModal"
-import { fetchSingleTasks } from "@/slices/taskSlice";
-import { deleteRecurringTask, fetchRecurringTask } from "@/slices/recurringtaskSlice";
+import { clearTaskError, fetchSingleTasks, setTaskLoading } from "@/slices/taskSlice";
+import { clearError, deleteRecurringTask, fetchRecurringTask, setLoading } from "@/slices/recurringtaskSlice";
+import BottomNavbarPage from "@/components/BottomNavbar/BottomNavbarPage";
+import Spinner from "../Spinner/Spinner";
 
 export default function MyTaskPage() {
   const dispatch = useDispatch();
@@ -16,7 +18,13 @@ export default function MyTaskPage() {
   const modalRef = useRef(null);
 
   const singleTasks = useSelector((state)=> state.tasks.items);
+  const singleTasksLoading = useSelector((state) => state.tasks.loading);
+  const singleTasksError = useSelector((state) => state.tasks.loading);
   const recurringTasks = useSelector((state)=> state.recurringtasks.items);
+  const recurringtTasksLoading = useSelector((state) => state.recurringtasks.loading);
+  const recurringTasksError = useSelector((state) => state.tasks.loading);
+  const isLoading = singleTasksLoading || recurringtTasksLoading;
+  const error = singleTasksError || recurringTasksError;
   
   const [activeTab, setActiveTab] = useState("single");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,6 +43,10 @@ export default function MyTaskPage() {
         console.error('Error fetching tasks:', error);
       }
     };
+    setTaskLoading(false);
+    setLoading(false);
+    clearTaskError();
+    clearError();
     fetchData();
   }, [activeTab]);
 
@@ -118,6 +130,14 @@ export default function MyTaskPage() {
     );
   };
 
+  if(isLoading){
+    return <Spinner/>
+  }
+
+  if(error){
+    return <div>{error}</div>
+  }
+
   return (
     <div className={styles.taskPage}>
 
@@ -141,6 +161,7 @@ export default function MyTaskPage() {
       {/* Content */}
       <div className={styles.content}>{renderTasks()}</div>
 
+      <BottomNavbarPage></BottomNavbarPage>
       {/* Floating Add Button */}
       <button className={styles.floatingButton} onClick={handlePlusClick}>
         <FaPlus className={styles.plus} />
