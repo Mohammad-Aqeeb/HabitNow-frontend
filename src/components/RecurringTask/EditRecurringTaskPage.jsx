@@ -1,6 +1,6 @@
 'use client';
 import styles from "@/styles/Task.module.css";
-import { MdArchive, MdDelete, MdDeleteForever } from "react-icons/md";
+import { MdArchive, MdDeleteForever } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import axiosInstance from "@/services/axiosInstance";
@@ -9,14 +9,21 @@ import "react-datepicker/dist/react-datepicker.css";
 import TimePicker from "react-time-picker";
 import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteRecurringTask, fetchRecurringTask, updateRecurringTask } from "@/slices/recurringtaskSlice";
+import { fetchCategory } from "@/slices/categorySlice";
 
 export default function EditRecurringTaskPage() {
   const { id } = useParams();
   const router = useRouter();
+  const dispatch = useDispatch()
+  const recurringTasks = useSelector((state)=> state.recurringtasks.items);
+  const loading = useSelector((state)=> state.recurringtasks.loading);
+  const error = useSelector((state)=> state.recurringtasks.error);
+  const categories = useSelector((state)=> state.categories.items);
 
   const [taskId, setTaskId] = useState("");
   const [taskName, setTaskName] = useState("");
-  const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -24,16 +31,17 @@ export default function EditRecurringTaskPage() {
   const [priority, setPriority] = useState("Medium");
   const [notes, setNotes] = useState("");
   const [frequency, setFrequency] = useState("");
-
   const [pending, setPending] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchTask = async () => {
       try {
-        const res = await axiosInstance.get(`/recurringTask/recurring-task/${id}`);
-        const task = res.data;
+        if(recurringTasks.length <= 0){
+          await dispatch(fetchRecurringTask()).unwrap();
+        }
+        const task = recurringTasks.find((task) => {
+          return task._id === id;
+        });
 
         setTaskId(task._id);
         setTaskName(task.name || "");
@@ -47,16 +55,15 @@ export default function EditRecurringTaskPage() {
         setPending(true);
 
       } catch (err) {
-        setError("Failed to load task data");
+        console.log("Failed to load task data" );
       }
     };
 
     const fetchCategories = async () => {
       try {
-        const response = await axiosInstance.get("/category");
-        setCategories(response.data || []);
+        await dispatch(fetchCategory()).unwrap();
       } catch (err) {
-        console.error("Error fetching categories", err);
+        console.error(err ||"Error fetching categories", err);
       }
     };
 
@@ -79,21 +86,17 @@ export default function EditRecurringTaskPage() {
     };
 
     try {
-      setLoading(true);
-      await axiosInstance.put(`/recurringTask/recurring-task/${id}`, updatedTask);
-      setLoading(false);
+      await dispatch(updateRecurringTask({id, updatedTask})).unwrap();
       alert("Task updated successfully.");
       router.push("/myTask");
     } catch (err) {
-      setLoading(false);
-      setError(err.response?.data?.error || "Failed to update task");
+      console.log(err.message || "Failed to update task");
     }
   };
 
   const handleDelete = async () => {
     try {
-      await axiosInstance.delete(`/recurringTask/recurring-task/${id}`);
-
+      await dispatch(deleteRecurringTask(id)).unwrap();
       alert('Task deleted successfully.');
       router.back();
     } catch (error) {
