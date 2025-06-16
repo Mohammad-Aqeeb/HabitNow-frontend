@@ -1,13 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import axiosInstance from "@/services/axiosInstance";
+import { useEffect } from "react";
 import { useForm } from "@/context/FormContext";
 import styles from "@/styles/CategorySelectionPage.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategory } from "@/slices/categorySlice";
 
 const CategorySelectionPage = ({ onNext, setValue }) => {
   const { updateFormData } = useForm();
-  const [categories, setCategories] = useState([]);
+  const dispatch = useDispatch();
+  const categories = useSelector((state)=> state.categories.items);
 
   const handleChange = (categoryId) => {
     setValue(categoryId);
@@ -17,8 +19,7 @@ const CategorySelectionPage = ({ onNext, setValue }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axiosInstance.get("/category");
-        setCategories(response.data || []);
+        await dispatch(fetchCategory()).unwrap();
       } catch (err) {
         console.error("Error fetching categories", err);
       }
