@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import styles from "../../styles/Profile.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUser, updateUser } from "@/slices/userSlice";
+import { clearError, fetchUser, setLoading, updateUser } from "@/slices/userSlice";
+import Spinner from "../Spinner/Spinner";
 
 function ProfilePage() {
   const dispatch = useDispatch();
@@ -21,7 +22,12 @@ function ProfilePage() {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        dispatch(updateUser({ ...profile, profilePicture: reader.result }));
+        try{
+          dispatch(updateUser({ ...profile, profilePicture: reader.result }));
+        }
+        catch(error){
+
+        }
       };
       reader.readAsDataURL(file);
     }
@@ -32,14 +38,27 @@ function ProfilePage() {
   };
 
   useEffect(() => {
-    try{
-      dispatch(fetchUser());
+    async function fetch(){
+      try{
+        await dispatch(fetchUser()).unwrap();
+      }
+      catch(error){
+        alert("Error getting profile: ");
+        console.log(err?.message || "Something went wrong.");
+      }
     }
-    catch(error){
-      alert("Error getting profile: ");
-      console.log(err?.message || "Something went wrong.");
-    }
+    clearError();
+    setLoading(false);
+    fetch();
   }, [dispatch]);
+
+  if(loading){
+    return <Spinner/>
+  }
+
+  if(error){
+    return <div>{error}</div>
+  }
 
   return (
     <div className={styles.profileContainer}>
