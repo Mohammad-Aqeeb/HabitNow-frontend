@@ -1,13 +1,18 @@
-// pages/habits/index.js (or wherever you're placing it)
-
 import React, { useEffect, useState } from "react";
-import axiosInstance from "../../services/axiosInstance";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import style from "@/styles/Habit.module.css";
-import Navbar from "../Navbar/Navbar";
+import Navbar from "@/components/Navbar/Navbar";
+import { useDispatch, useSelector } from "react-redux";
+import { clearError, createHabit, deleteHabit, fetchHabit, setLoading, updateHabit } from "@/slices/habitSlice";
+import BottomNavbarPage from "../BottomNavbar/BottomNavbarPage";
+import Spinner from "../Spinner/Spinner";
 
 const HabitsPage = () => {
-  const [habits, setHabits] = useState([]);
+  const dispatch = useDispatch();
+  const habits = useSelector((state)=> state.habits.items);
+  const loading = useSelector((state)=> state.habits.loading);
+  const error = useSelector((state)=> state.habits.error);
+
   const [newHabit, setNewHabit] = useState({
     name: "",
     description: "",
@@ -21,12 +26,13 @@ const HabitsPage = () => {
   useEffect(() => {
     const fetchHabits = async () => {
       try {
-        const response = await axiosInstance.get("/habit/habits");
-        setHabits(response.data.data);
+        await dispatch(fetchHabit()).unwrap();
       } catch (error) {
         console.error("Error fetching habits:", error);
       }
     };
+    clearError();
+    setLoading(false);
     fetchHabits();
   }, []);
 
@@ -35,23 +41,20 @@ const HabitsPage = () => {
     if (name.trim()) {
       try {
         if (editingHabit) {
-          const response = await axiosInstance.put(`/habit/habits/${editingHabit}`, {
-            complete: true,
-            date: new Date(),
-          });
-
-          setHabits(habits.map(habit => (habit._id === editingHabit ? response.data.data : habit)));
+          try{
+            await dispatch(updateHabit({id : editingHabit, updatedFields: { complete: true, date: new Date()} })).unwrap();
+          }
+          catch(error){
+            console.log(error.message || "Error while updating");
+          }
           setEditingHabit(null);
         } else {
-          const response = await axiosInstance.post("/habit/habits", {
-            name,
-            description,
-            frequency,
-            startDate,
-            endDate,
-          });
-
-          setHabits([...habits, response.data.data]);
+          try{
+            await dispatch(createHabit(newHabit)).unwrap();
+          }
+          catch(error){
+            console.log(error.message || "Error while creating habit");
+          }
         }
 
         setNewHabit({
@@ -81,12 +84,7 @@ const HabitsPage = () => {
 
   const handleEditProgress = async (habitId, date, completed) => {
     try {
-      const response = await axiosInstance.put(`/habit/habits/${habitId}`, {
-        date: new Date(date).toISOString().split("T")[0],
-        completed,
-      });
-
-      setHabits(habits.map(habit => (habit._id === habitId ? response.data.data : habit)));
+      await dispatch(updateHabit({id : habitId, updatedFields : {date: new Date(date).toISOString().split("T")[0], completed}})).unwrap();
     } catch (error) {
       console.error("Error updating progress:", error);
     }
@@ -94,12 +92,19 @@ const HabitsPage = () => {
 
   const handleDeleteHabit = async (id) => {
     try {
-      await axiosInstance.delete(`/habit/habits/${id}`);
-      setHabits(habits.filter(habit => habit._id !== id));
+      await dispatch(deleteHabit(id)).unwrap();
     } catch (error) {
       console.error("Error deleting habit:", error);
     }
   };
+
+  if(loading){
+    return <Spinner/>
+  }
+
+  if(error){
+    return <div>{error}...</div>
+  }
 
   return (
     <div className={style.habitContainer}>
@@ -160,6 +165,8 @@ const HabitsPage = () => {
             </div>
           ))}
         </div>
+
+        <BottomNavbarPage></BottomNavbarPage>
 
         <button
           className={style.addHabitButton}
