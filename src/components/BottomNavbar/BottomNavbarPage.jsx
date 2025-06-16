@@ -7,9 +7,6 @@ import styles from "@/styles/BottomNavbar.module.css";
 
 const BottomNavbarPage = () => {
   const pathname = usePathname();
-  const hiddenBottomNavRoutes = ["/login", "/rate", "/contact", "/premium", "/setting","/timer"];
-
-  if (hiddenBottomNavRoutes.some(route => pathname.startsWith(route))) return null;
 
   return (
     <div className={styles.bottomNavbar}>
