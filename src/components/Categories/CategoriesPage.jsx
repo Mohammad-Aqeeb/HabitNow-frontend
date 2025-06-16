@@ -4,9 +4,6 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../services/axiosInstance";
 import styles from "@/styles/Categories.module.css";
 import { FaApple, FaBeer, FaCar, FaCamera, FaHeart, FaHome } from "react-icons/fa";
-import { GrImage } from "react-icons/gr";
-import { GoPencil } from "react-icons/go";
-import { MdInvertColors } from "react-icons/md";
 
 
 const CategoriesPage = () => {
