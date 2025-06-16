@@ -1,16 +1,22 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import EvaluateProgressPage from "@/components/RecurringTask/EvaluateProgressPage";
 import CategorySelectionPage from "@/components/RecurringTask/CategorySelectionPage";
 import DefineTaskPage from "@/components/RecurringTask/DefineTaskPage";
 import HowOftenPage from "@/components/RecurringTask/HowOftenPage";
 import WhenToDoItPage from "@/components/RecurringTask/WhenToDoItPage";
-import axiosInstance from "@/services/axiosInstance";
+import { useDispatch, useSelector } from "react-redux";
+import { clearError, createRecurringTask, setLoading } from "@/slices/recurringtaskSlice";
+import Spinner from "../Spinner/Spinner";
 
 function RecurringTaskPage() {
   const [step, setStep] = useState(0);
+  const dispatch = useDispatch();
+  const loading = useSelector((state)=> state.recurringtasks.loading);
+  const error = useSelector((state)=> state.recurringtasks.error);
+  const router = useRouter();
 
   const [component1Value, setComponent1Value] = useState(null);
   const [component2Value, setComponent2Value] = useState(null);
@@ -18,26 +24,13 @@ function RecurringTaskPage() {
   const [component4Value, setComponent4Value] = useState(null);
   const [component5Value, setComponent5Value] = useState(null);
 
-  const finalArray = [
-    component1Value,
-    component2Value,
-    component3Value,
-    component4Value,
-    component5Value,
-  ];
-
-  const router = useRouter();
-
   const nextStep = () => setStep((prevStep) => prevStep + 1);
   const previousStep = () => setStep((prevStep) => (prevStep > 0 ? prevStep - 1 : 0));
 
   const handleSave = async (savedData) => {
     try {
-      const response = await axiosInstance.post(
-        "/recurringTask/recurring-task",
-        savedData
-      );
-      console.log("Saved form data:", response);
+      await dispatch(createRecurringTask(savedData)).unwrap();
+      console.log("Saved form data:", savedData);
 
       alert("Task saved successfully!");
       router.push("/");
@@ -46,6 +39,20 @@ function RecurringTaskPage() {
       alert("Failed to save the task. Please try again.");
     }
   };
+
+
+  useEffect(()=>{
+    clearError();
+    setLoading(false)
+  },[])
+
+  if(loading){
+    return <Spinner/>
+  }
+
+  if(error){
+    return <div>{error}...</div>
+  }
 
   return (
     <div>
