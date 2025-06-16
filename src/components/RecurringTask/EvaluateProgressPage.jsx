@@ -5,7 +5,7 @@ import { useForm } from '@/context/FormContext';
 import styles from "@/styles/EvaluateProgressPage.module.css";
 
 const EvaluateProgressPage = ({ onPrevious, onNext, setValue }) => {
-  const { formData, updateFormData } = useForm();
+  const { updateFormData } = useForm();
 
   const handleChange = (evaluationType) => {
     setValue(evaluationType);
