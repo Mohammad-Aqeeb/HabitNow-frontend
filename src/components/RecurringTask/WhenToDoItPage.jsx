@@ -24,9 +24,9 @@ const WhenToDoItPage = ({ onPrevious, onNext, onSave }) => {
       description: formData.page3Data?.note,
       frequency: formData.frequency,
       customFrequency: formData.customFrequency,
-      startDate,
+      startDate: startDate.toISOString(),
       endDateEnabled,
-      endDate,
+      endDate: endDate ? endDate.toISOString() : null,
       priority,
       reminders,
       time: taskTime,
@@ -57,7 +57,7 @@ const WhenToDoItPage = ({ onPrevious, onNext, onSave }) => {
             todayButton="Today"
             className={styles.datePicker}
           />
-        </div>
+        </div>  
 
         {/* End Date */}
         <div className={styles.option}>
