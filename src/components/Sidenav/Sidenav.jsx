@@ -5,9 +5,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaBars } from "react-icons/fa";
 import styles from "@/styles/Sidenav.module.css";
+import { useModal } from "@/context/ModalContext";
 
 const Sidenav = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { openRateModal } = useModal();
   const hiddenToggleRoutes = ["/login", "/rate", "/contact", "/premium", "/timer", "/categories","/setting"];
   const pathname = usePathname();
   const navRef = useRef(null);
@@ -60,7 +62,7 @@ const Sidenav = () => {
           <li className={pathname === "/setting" ? styles.active : ""} onClick={()=>{setIsOpen(false)}}><Link href="/setting">Settings</Link></li>
           <li className={pathname === "/backups" ? styles.active : ""} onClick={()=>{setIsOpen(false)}}><Link href="/backups">Backups</Link></li>
           <li className={pathname === "/premium" ? styles.active : ""} onClick={()=>{setIsOpen(false)}}><Link href="/premium" >Get Premium</Link></li>
-          <li className={pathname === "/rate" ? styles.active : ""} onClick={()=>{setIsOpen(false)}}><Link href="/rate">Rate this App</Link></li>
+          <li className={pathname === "/rate" ? styles.active : ""} onClick={() => {setIsOpen(false); openRateModal()}} >Rate this App</li>
           <li className={pathname === "/contact" ? styles.active : ""} onClick={()=>{setIsOpen(false)}}><Link href="/contact">Contact Us</Link></li>
           <li className={pathname === "/login" ? styles.active : ""} onClick={()=>{setIsOpen(false)}}><Link href="/login">Login</Link></li>
         </ul>
