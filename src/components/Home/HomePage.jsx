@@ -11,12 +11,21 @@ import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import {fetchSingleTasks, toggleTaskCompletion, updateSingleTask } from '@/slices/taskSlice';
 import { fetchRecurringTask, toggleRecurringTaskCompletion, updateRecurringTask } from '@/slices/recurringtaskSlice';
+import BottomNavbarPage from '../BottomNavbar/BottomNavbarPage';
+import Spinner from '../Spinner/Spinner';
 
 
 const HomePage = () => {
   const dispatch = useDispatch();
   const singleTasks = useSelector((state) => state.tasks.items);
+  const singleTasksLoading = useSelector((state) => state.tasks.loading);
+  const singleTasksError = useSelector((state) => state.tasks.loading);
   const recurringTasks = useSelector((state) => state.recurringtasks.items);
+  const recurringtTasksLoading = useSelector((state) => state.recurringtasks.loading);
+  const recurringTasksError = useSelector((state) => state.tasks.loading);
+  const isLoading = singleTasksLoading || recurringtTasksLoading;
+  const error = singleTasksError || recurringTasksError;
+
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -52,9 +61,9 @@ const HomePage = () => {
     try {
       dispatch(toggleTaskCompletion(id));
       const task = singleTasks.find(t => t._id === id);
-      if (task) {
-        await dispatch(updateSingleTask({ ...task, completed: !task.completed })).unwrap();
-      }
+      // if (task) {
+      //   await dispatch(updateSingleTask({id: id, updatedTask : { ...task, completed: !task.completed }})).unwrap();
+      // }
     } catch (error) {
       console.error('Failed to update task completion:', error);
     }
@@ -64,14 +73,20 @@ const HomePage = () => {
     try {
       dispatch(toggleRecurringTaskCompletion(id));
       const task = recurringTasks.find(t => t._id=== id);
-      if(task){
-        dispatch(updateRecurringTask({ ...task, completed: !task.completed }));
-      }
+      // if(task){
+      //   await dispatch(updateRecurringTask({id : id, updatedTask : { ...task, completed: !task.completed }})).unwrap();
+      // }
     } catch (error){
       console.error('Failed to update task completion:', error);
     }
   };
 
+  if(isLoading){
+    return <Spinner/>
+  }
+  if(error){
+    return <div>Error...</div>
+  }
   return (
     <div className={styles.homepageContainer}>
       <Navbar selectedDate={selectedDate}></Navbar>
@@ -148,6 +163,7 @@ const HomePage = () => {
         )}
       </div>
 
+      <BottomNavbarPage></BottomNavbarPage>
       <button className={styles.fab} onClick={handlePlusClick}>
         <FaPlus className={styles.plus} />
       </button>
