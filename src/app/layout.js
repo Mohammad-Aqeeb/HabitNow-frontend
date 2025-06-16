@@ -10,6 +10,8 @@ import { FormProvider } from '@/context/FormContext';
 import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from '@/store/index';
 import { Provider } from 'react-redux';
+import { ModalProvider } from '@/context/ModalContext';
+import RateAppModal from '@/components/Modal/RateAppModal';
 
 const store = configureStore({
   reducer: rootReducer
@@ -27,9 +29,11 @@ export default function RootLayout({ children }) {
       <body>
         <Provider store={store}>
           <AuthProvider>
+            <ModalProvider>
             <FormProvider>
               <div className="MainDiv" style={{ position: 'relative' }}>
                 <Sidenav />
+                <RateAppModal />
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={typeof window !== 'undefined' ? location.pathname : 'static'}
@@ -47,9 +51,9 @@ export default function RootLayout({ children }) {
                     {children}
                   </motion.div>
                 </AnimatePresence>
-                <BottomNavbarPage />
               </div>
             </FormProvider>
+            </ModalProvider>
           </AuthProvider>
         </Provider>
       </body>
