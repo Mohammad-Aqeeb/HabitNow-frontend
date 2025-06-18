@@ -5,13 +5,23 @@ import { createContext, useContext, useEffect, useState } from "react";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+    console.log(children)
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    console.log(isAuthenticated+ "aaaaaaaaa ")
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            setIsAuthenticated(true);
+        async function fetchToken() {
+            setLoading(true);
+            const token = localStorage.getItem("token");
+            console.log(token)
+            if (token) {
+                setIsAuthenticated(true);
+            }
+            setLoading(false);    
         }
+        fetchToken();
     }, []);
 
     const login = (token) => {
@@ -25,7 +35,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, login, logout, loading }}>
             {children}
         </AuthContext.Provider>
     );
