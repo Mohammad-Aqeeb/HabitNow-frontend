@@ -7,13 +7,10 @@ import Spinner from "./Spinner/Spinner";
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated , loading} = useAuth();
-  console.log(isAuthenticated);
-  console.log(loading);
 
   const router = useRouter();
 
   useEffect(() => {
-    console.log(loading);
     if (!loading && !isAuthenticated) {
       router.replace("/login");
     }
