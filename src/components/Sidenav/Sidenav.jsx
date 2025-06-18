@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FaBars } from "react-icons/fa";
+import { HiBars3BottomLeft } from "react-icons/hi2";
 import styles from "@/styles/Sidenav.module.css";
 import { useModal } from "@/context/ModalContext";
 
@@ -33,7 +33,7 @@ const Sidenav = () => {
     <>
       {!hiddenToggleRoutes.some(route => pathname.startsWith(route)) && (
         <button ref={btnRef} className={styles.toggleBtn} onClick={() => setIsOpen(!isOpen)}>
-          <FaBars />
+          <HiBars3BottomLeft />
         </button>
       )}
 
@@ -65,6 +65,7 @@ const Sidenav = () => {
           <li className={pathname === "/rate" ? styles.active : ""} onClick={() => {setIsOpen(false); openRateModal()}} >Rate this App</li>
           <li className={pathname === "/contact" ? styles.active : ""} onClick={()=>{setIsOpen(false)}}><Link href="/contact">Contact Us</Link></li>
           <li className={pathname === "/login" ? styles.active : ""} onClick={()=>{setIsOpen(false)}}><Link href="/login">Login</Link></li>
+          <li className={pathname === "/register" ? styles.active : ""} onClick={()=>{setIsOpen(false)}}><Link href="/register">Sign up</Link></li>
         </ul>
       </nav>
     </>
