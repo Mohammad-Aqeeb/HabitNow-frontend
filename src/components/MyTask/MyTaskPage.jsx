@@ -15,7 +15,6 @@ import Spinner from "../Spinner/Spinner";
 export default function MyTaskPage() {
   const dispatch = useDispatch();
   const router = useRouter();
-  const modalRef = useRef(null);
 
   const singleTasks = useSelector((state)=> state.tasks.items);
   const singleTasksLoading = useSelector((state) => state.tasks.loading);
@@ -49,18 +48,6 @@ export default function MyTaskPage() {
     clearError();
     fetchData();
   }, [activeTab]);
-
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (isRecurringTaskModal && modalRef.current && !modalRef.current.contains(event.target)) {
-        setIsRecurringTaskModal(false);
-      }
-    };
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, [isRecurringTaskModal]);
 
   const handleRecurringTaskDelete = async () => {
     try {
@@ -173,11 +160,10 @@ export default function MyTaskPage() {
 
       {
         isRecurringTaskModal && (
-        <div 
-          className={`${styles.modal} ${styles.modalShow}`}
+        <div className={styles.modalOverlay}
           onClick={() => setIsRecurringTaskModal(false)} 
-          ref={modalRef}
-        >
+        > 
+        <div className={`${styles.modal} ${styles.modalShow}`}>
           <div 
             className={`${styles.modalContent} ${styles.modalShowContent}`}
             onClick={(e) => e.stopPropagation()}
@@ -226,6 +212,7 @@ export default function MyTaskPage() {
               </div>
             </div>
           </div>
+        </div>
         </div>
       )}
     </div>
