@@ -9,8 +9,9 @@ import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
 import styles from "@/styles/Task.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteSingleTask, fetchSingleTasks, updateSingleTask } from "@/slices/taskSlice";
+import { clearTaskError, deleteSingleTask, fetchSingleTasks, setTaskLoading, updateSingleTask } from "@/slices/taskSlice";
 import { fetchCategory } from "@/slices/categorySlice";
+import Spinner from "../Spinner/Spinner";
 
 export default function EditTaskPage() {
   const { id } = useParams();
@@ -51,7 +52,7 @@ export default function EditTaskPage() {
         setPending(true);
 
       } catch (err) {
-        setError("Failed to load task data");
+        console.log("Failed to load task data", err);
       }
     };
 
@@ -64,6 +65,8 @@ export default function EditTaskPage() {
     };
 
     if (id) {
+      clearTaskError();
+      setTaskLoading(false);
       fetchTask();
       fetchCategories();
     }
@@ -100,6 +103,9 @@ export default function EditTaskPage() {
     }
   };
 
+  if(loading){
+    return <Spinner></Spinner>
+  }
   return (
     <div className={styles.taskContainer}>
       <h2 className={styles.taskTitle}>Edit Task</h2>
