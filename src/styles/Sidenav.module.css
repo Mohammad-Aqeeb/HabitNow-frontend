@@ -67,24 +67,22 @@
 }
 
 .toggleBtn {
+  border: none; 
+  background-color: #242424;
   position: absolute;
-  top: 20px;
-  left: 15px;
-  background-color: #e91e63;
-  border: none;
+  top: 13px;
+  left: 10px;
   padding: 10px;
-  border-radius: 5px;
-  color: white;
-  font-size: 10px;
+  font-size: 25px;
+  color: #e91e63;
   cursor: pointer;
   height: 40px;
   width: 40px;
   z-index: 0;
 }
 
-.toggleBtn:hover {
-  background-color: #fff;
-  color: #000;
+.toggleBtn:focus {
+  outline: none;
 }
 
 @media (max-width: 768px) {
