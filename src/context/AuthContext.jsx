@@ -5,17 +5,14 @@ import { createContext, useContext, useEffect, useState } from "react";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    console.log(children)
+
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
-
-    console.log(isAuthenticated+ "aaaaaaaaa ")
 
     useEffect(() => {
         async function fetchToken() {
             setLoading(true);
             const token = localStorage.getItem("token");
-            console.log(token)
             if (token) {
                 setIsAuthenticated(true);
             }
