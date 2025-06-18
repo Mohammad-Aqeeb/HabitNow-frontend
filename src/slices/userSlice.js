@@ -29,6 +29,12 @@ const userSlice = createSlice({
     reducers : {
         updateUser : (state, action)=>{
             state.user = action.payload;
+        },
+        clearError: (state) => {
+            state.error = null;
+        },
+        setLoading: (state, action) => {
+            state.loading = action.payload;
         }
     },
     extraReducers : (builder)=>{
@@ -58,5 +64,5 @@ const userSlice = createSlice({
     }
 })
 
-export const {updateUser} = userSlice.actions;
+export const {updateUser, clearError, setLoading} = userSlice.actions;
 export default userSlice.reducer;
