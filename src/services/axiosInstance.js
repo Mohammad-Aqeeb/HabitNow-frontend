@@ -32,7 +32,7 @@ axiosInstance.interceptors.response.use(
       error.response &&
       (error.response.status === 401 || error.response.status === 403)
     ) {
-      console.log(error.response.status);
+
       localStorage.removeItem('token');
       alert('Session expired. Please log in again.');
       window.location.href = '/login';
