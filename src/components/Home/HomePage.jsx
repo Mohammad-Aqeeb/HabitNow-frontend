@@ -2,6 +2,10 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { FaCalendarAlt, FaPlus } from 'react-icons/fa';
+import { RiMessage2Line } from "react-icons/ri";
+import { GrPowerReset } from "react-icons/gr";
+import { ImPencil } from "react-icons/im";
+
 import styles from '@/styles/home.module.css';
 import ChooseTaskModal from '../ChooseTaskModal/ChooseTaskModal';
 import Navbar from '../Navbar/Navbar';
@@ -9,14 +13,18 @@ import Navbar from '../Navbar/Navbar';
 import dayjs from 'dayjs';
 
 import { useDispatch, useSelector } from 'react-redux';
-import {fetchSingleTasks, toggleTaskCompletion, updateSingleTask } from '@/slices/taskSlice';
-import { fetchRecurringTask, toggleRecurringTaskCompletion, updateRecurringTask } from '@/slices/recurringtaskSlice';
+import {fetchSingleTasks, toggleTaskCompletion } from '@/slices/taskSlice';
+import { fetchRecurringTask, toggleRecurringTaskCompletion, toggleRecurringTaskCompletionDone, toggleRecurringTaskCompletionPending, updateRecurringTask } from '@/slices/recurringtaskSlice';
 import BottomNavbarPage from '../BottomNavbar/BottomNavbarPage';
 import Spinner from '../Spinner/Spinner';
+import { MdOutlineCalendarMonth, MdOutlineNotificationsOff, MdRemoveCircleOutline } from 'react-icons/md';
+import { IoMdSync } from 'react-icons/io';
+import { useRouter } from 'next/navigation';
 
 
 const HomePage = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const singleTasks = useSelector((state) => state.tasks.items);
   const singleTasksLoading = useSelector((state) => state.tasks.loading);
   const singleTasksError = useSelector((state) => state.tasks.loading);
@@ -28,6 +36,8 @@ const HomePage = () => {
 
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRecurringTaskModal, setIsRecurringTaskModal] = useState(false);
+  const [selectedRecurringTask, setSelectedRecurringTask] = useState(null);
 
   const startDate = dayjs().subtract(80, 'day');
   const dates = Array.from({ length: 161 }, (_, i) => startDate.add(i, 'day'));
@@ -60,7 +70,7 @@ const HomePage = () => {
   const handleTaskCheck = async (id) => {
     try {
       dispatch(toggleTaskCompletion(id));
-      const task = singleTasks.find(t => t._id === id);
+      // const task = singleTasks.find(t => t._id === id);
       // if (task) {
       //   await dispatch(updateSingleTask({id: id, updatedTask : { ...task, completed: !task.completed }})).unwrap();
       // }
@@ -72,7 +82,7 @@ const HomePage = () => {
   const handleRecurringCheck = async (id) => {
     try {
       dispatch(toggleRecurringTaskCompletion(id));
-      const task = recurringTasks.find(t => t._id=== id);
+      // const task = recurringTasks.find(t => t._id=== id);
       // if(task){
       //   await dispatch(updateRecurringTask({id : id, updatedTask : { ...task, completed: !task.completed }})).unwrap();
       // }
@@ -142,7 +152,10 @@ const HomePage = () => {
 
             { recurringTasks.length > 0 && (
               recurringTasks.map((task) => (
-                <div key={task._id} className={styles.taskItem}>
+                <div key={task._id} className={styles.taskItem} onClick={() => {
+                  setIsRecurringTaskModal(true)
+                  setSelectedRecurringTask(task)
+                }}>
                   <div>
                     <div>
                       {task.name && <p className={styles.taskName}>{task.name}</p>}
@@ -152,7 +165,10 @@ const HomePage = () => {
                   </div>
                   <div
                       className={`${styles.checkCircle} ${task.completed ? styles.checked : ""}`}
-                      onClick={() => handleRecurringCheck(task._id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRecurringCheck(task._id);
+                      }}
                   >
                       {task.completed && "✔"}
                   </div>
@@ -170,6 +186,108 @@ const HomePage = () => {
 
       {isModalOpen && (
         <ChooseTaskModal closeModal={closeModal}/>
+      )}
+
+      {
+        isRecurringTaskModal && (
+        <div className={styles.modalOverlay}
+          onClick={() => setIsRecurringTaskModal(false)} 
+        > 
+        <div className={`${styles.modal} ${styles.modalShow}`}>
+          <div 
+            className={`${styles.modalContent} ${styles.modalShowContent}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className={styles.modalRecurringTasktitleContainer}>
+              <div className={styles.modalRecurringTasktitle}>
+                <div>{selectedRecurringTask.name}</div>
+                <p className={styles.modalRecurringTasksubText}>{selectedDate.format('MM/DD/YYYY')}</p>
+                <p className={styles.modalRecurringTaskText}>{selectedRecurringTask.description}</p>
+              </div>
+              <div>
+                <img src={selectedRecurringTask.category.icon} alt="icon" />
+              </div>
+            </div>
+
+            <div>
+              <div className={styles.iconBox}>
+                <div className={styles.calenderIconBox} 
+                  onClick={()=>{
+                    dispatch(toggleRecurringTaskCompletionPending(selectedRecurringTask._id));
+                    setIsRecurringTaskModal(false)
+                  }}
+                >
+                  Pending
+                </div>
+                <div className={styles.pencilIconBox}
+                  onClick={()=>{
+                    dispatch(toggleRecurringTaskCompletionDone(selectedRecurringTask._id));
+                    setIsRecurringTaskModal(false)
+                  }}
+                >
+                  Done
+                </div>
+              </div>
+            </div>
+
+            <div className={`${styles.modalOption} ${styles.modalOptionShow}`}>
+              <div style={{ display: 'flex' }}
+                onClick={()=>{router.push(`/recurringTask/${selectedRecurringTask._id}`)}}
+              >
+                <MdOutlineNotificationsOff className={styles.modalIcon} />
+                <p className={styles.modalOptionText}>Add reminder ...</p>
+              </div>
+            </div>
+
+            <div className={`${styles.modalOption} ${styles.modalOptionShow}`}>
+              <div style={{ display: 'flex' }}>
+                <RiMessage2Line className={styles.modalIcon} />
+                <p className={styles.modalOptionText}>Add note ...</p>
+              </div>
+            </div>
+
+            <div 
+              className={`${styles.modalOption} ${styles.modalOptionShow}`}
+            >
+              <div style={{ display: 'flex' }}>
+                <GrPowerReset  className={styles.modalIcon} />
+                <p className={styles.modalOptionText}>Reschedule</p>
+              </div>
+            </div>
+
+            <div 
+              className={`${styles.modalOption} ${styles.modalOptionShow}`}
+            >
+              <div style={{ display: 'flex' }}>
+                <MdRemoveCircleOutline className={styles.modalIcon} />
+                <p className={styles.modalOptionText}>Skip</p>
+              </div>
+            </div>
+
+            <div 
+              className={`${styles.modalOption} ${styles.modalOptionShow}`}
+            >
+              <div style={{ display: 'flex' }}>
+                <IoMdSync className={styles.modalIcon} />
+                <p className={styles.modalOptionText}>Reset entry</p>
+              </div>
+            </div>
+            
+            <div>
+              <div className={styles.iconBox}>
+                <div className={styles.calenderIconBox}>
+                  <MdOutlineCalendarMonth className={styles.modalIcon}/>
+                </div>
+                <div className={styles.pencilIconBox} 
+                  onClick={()=>{router.push(`/recurringTask/${selectedRecurringTask._id}`)}}
+                >
+                  <ImPencil className={styles.modalIcon} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
       )}
     </div>
   );
