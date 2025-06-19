@@ -3,8 +3,10 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from '@/styles/login.module.css';
 import axiosInstance from '@/services/axiosInstance';
+import { useAuth } from '@/context/AuthContext';
 
 const LoginPage = () => {
+  const {login} = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -23,7 +25,7 @@ const LoginPage = () => {
         throw new Error(data.error || 'Login failed');
       }
 
-      localStorage.setItem('token', response.data.token);
+      login( response.data.token);
       alert('Login successful!');
       router.push('/');
     } catch (err) {
