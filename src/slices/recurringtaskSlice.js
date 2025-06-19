@@ -56,6 +56,18 @@ const recurringtaskSlice = createSlice({
                 task.completed = !task.completed;
             }
         },
+        toggleRecurringTaskCompletionPending : (state, action)=>{
+            const task = state.items.find(t => t._id === action.payload);
+            if (task) {
+                task.completed = false;
+            }
+        },
+        toggleRecurringTaskCompletionDone : (state, action)=>{
+            const task = state.items.find(t => t._id === action.payload);
+            if (task) {
+                task.completed = true;
+            }
+        },
         clearError: (state) => {
             state.error = null;
         },
@@ -119,5 +131,5 @@ const recurringtaskSlice = createSlice({
     }
 })
 
-export const { toggleRecurringTaskCompletion ,clearError, setLoading} = recurringtaskSlice.actions;
+export const { toggleRecurringTaskCompletion ,clearError, setLoading, toggleRecurringTaskCompletionPending, toggleRecurringTaskCompletionDone} = recurringtaskSlice.actions;
 export default recurringtaskSlice.reducer;
