@@ -1,25 +1,26 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
+
 import { FaCalendarAlt, FaPlus } from 'react-icons/fa';
 import { RiMessage2Line } from "react-icons/ri";
 import { GrPowerReset } from "react-icons/gr";
 import { ImPencil } from "react-icons/im";
+import { IoMdSync } from 'react-icons/io';
 
 import styles from '@/styles/home.module.css';
-import ChooseTaskModal from '../ChooseTaskModal/ChooseTaskModal';
-import Navbar from '../Navbar/Navbar';
+import ChooseTaskModal from '@/components/ChooseTaskModal/ChooseTaskModal';
+import Navbar from '@/components/Navbar/Navbar';
+import BottomNavbarPage from '@/components/BottomNavbar/BottomNavbarPage';
+import Spinner from '@/components/Spinner/Spinner';
 
 import dayjs from 'dayjs';
 
 import { useDispatch, useSelector } from 'react-redux';
-import {fetchSingleTasks, toggleTaskCompletion } from '@/slices/taskSlice';
+import {deleteSingleTask, fetchSingleTasks, toggleTaskCompletion, toggleTaskCompletionDone, toggleTaskCompletionPending } from '@/slices/taskSlice';
 import { fetchRecurringTask, toggleRecurringTaskCompletion, toggleRecurringTaskCompletionDone, toggleRecurringTaskCompletionPending, updateRecurringTask } from '@/slices/recurringtaskSlice';
-import BottomNavbarPage from '../BottomNavbar/BottomNavbarPage';
-import Spinner from '../Spinner/Spinner';
-import { MdOutlineCalendarMonth, MdOutlineNotificationsOff, MdRemoveCircleOutline } from 'react-icons/md';
-import { IoMdSync } from 'react-icons/io';
-import { useRouter } from 'next/navigation';
+import { MdDeleteOutline, MdOutlineCalendarMonth, MdOutlineNotificationsOff, MdRemoveCircleOutline } from 'react-icons/md';
 
 
 const HomePage = () => {
@@ -36,7 +37,10 @@ const HomePage = () => {
 
   const [selectedDate, setSelectedDate] = useState(dayjs());
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [isTaskModal, setIsTaskModal] = useState(false);
   const [isRecurringTaskModal, setIsRecurringTaskModal] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
   const [selectedRecurringTask, setSelectedRecurringTask] = useState(null);
 
   const startDate = dayjs().subtract(80, 'day');
@@ -91,6 +95,17 @@ const HomePage = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      await dispatch(deleteSingleTask(id)).unwrap();
+      alert('Task deleted successfully.');
+      router.back();
+    } catch (error) {
+      console.error('Error deleting task:', error);
+      alert('Failed to delete task. Please try again.');
+    }
+  };
+
   if(isLoading){
     return <Spinner/>
   }
@@ -131,7 +146,10 @@ const HomePage = () => {
           <>
             {singleTasks.length > 0 &&
               singleTasks.map((task) => (
-                <div key={task._id} className={styles.taskItem}>
+                <div key={task._id} className={styles.taskItem} onClick={() => {
+                  setIsTaskModal(true)
+                  setSelectedTask(task)
+                }}>
                   <div>
                     <div>
                       {task.name && <p className={styles.taskName}>{task.name}</p>}
@@ -142,7 +160,10 @@ const HomePage = () => {
 
                   <div
                       className={`${styles.checkCircle} ${task.completed ? styles.checked : ""}`}
-                      onClick={() => handleTaskCheck(task._id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleTaskCheck(task._id)
+                      }}
                     >
                       {task.completed && "✔"}
                   </div>
@@ -186,6 +207,98 @@ const HomePage = () => {
 
       {isModalOpen && (
         <ChooseTaskModal closeModal={closeModal}/>
+      )}
+
+      {
+        isTaskModal && (
+        <div className={styles.modalOverlay}
+          onClick={() => setIsTaskModal(false)} 
+        > 
+        <div className={`${styles.modal} ${styles.modalShow}`}>
+          <div 
+            className={`${styles.modalContent} ${styles.modalShowContent}`}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className={styles.modalRecurringTasktitleContainer}>
+              <div className={styles.modalRecurringTasktitle}>
+                <div>{selectedTask.name}</div>
+                <p className={styles.modalRecurringTasksubText}>{selectedDate.format('MM/DD/YYYY')}</p>
+                <p className={styles.modalRecurringTaskText}>{selectedTask.description}</p>
+              </div>
+              <div>
+                <img src={selectedTask.category} alt="icon" />
+              </div>
+            </div>
+
+            <div>
+              <div className={styles.iconBox}>
+                <div className={styles.calenderIconBox} 
+                  onClick={()=>{
+                    dispatch(toggleTaskCompletionPending(selectedTask._id));
+                    setIsTaskModal(false)
+                  }}
+                >
+                  Pending
+                </div>
+                <div className={styles.pencilIconBox}
+                  onClick={()=>{
+                    dispatch(toggleTaskCompletionDone(selectedTask._id));
+                    setIsTaskModal(false)
+                  }}
+                >
+                  Done
+                </div>
+              </div>
+            </div>
+
+            <div className={`${styles.modalOption} ${styles.modalOptionShow}`}>
+              <div style={{ display: 'flex' }}
+                onClick={()=>{router.push(`/task/${selectedTask._id}`)}}
+              >
+                <MdOutlineNotificationsOff className={styles.modalIcon} />
+                <p className={styles.modalOptionText}>Add reminder ...</p>
+              </div>
+            </div>
+
+            <div className={`${styles.modalOption} ${styles.modalOptionShow}`}>
+              <div style={{ display: 'flex' }}>
+                <RiMessage2Line className={styles.modalIcon} />
+                <p className={styles.modalOptionText}>Add note ...</p>
+              </div>
+            </div>
+
+            <div className={`${styles.modalOption} ${styles.modalOptionShow}`} >
+              <div style={{ display: 'flex' }}>
+                <GrPowerReset  className={styles.modalIcon} />
+                <p className={styles.modalOptionText}>Reschedule</p>
+              </div>
+            </div>
+
+            <div 
+              className={`${styles.modalOption} ${styles.modalOptionShow}`}
+              onClick={()=>{
+                handleDelete(selectedTask._id)
+                setIsTaskModal(false)
+              }}
+            >
+              <div style={{ display: 'flex' }}>
+                <MdDeleteOutline className={styles.modalIcon} />
+                <p className={styles.modalOptionText}>Delete</p>
+              </div>
+            </div>
+
+            <div 
+              className={`${styles.modalOption} ${styles.modalOptionShow}`}
+              onClick={()=>{router.push(`/task/${selectedTask._id}`)}}
+            >
+              <div style={{ display: 'flex' }}>
+                <ImPencil className={styles.modalIcon} />
+                <p className={styles.modalOptionText}>Edit</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
       )}
 
       {
@@ -246,27 +359,21 @@ const HomePage = () => {
               </div>
             </div>
 
-            <div 
-              className={`${styles.modalOption} ${styles.modalOptionShow}`}
-            >
+            <div className={`${styles.modalOption} ${styles.modalOptionShow}`} >
               <div style={{ display: 'flex' }}>
                 <GrPowerReset  className={styles.modalIcon} />
                 <p className={styles.modalOptionText}>Reschedule</p>
               </div>
             </div>
 
-            <div 
-              className={`${styles.modalOption} ${styles.modalOptionShow}`}
-            >
+            <div className={`${styles.modalOption} ${styles.modalOptionShow}`} >
               <div style={{ display: 'flex' }}>
                 <MdRemoveCircleOutline className={styles.modalIcon} />
                 <p className={styles.modalOptionText}>Skip</p>
               </div>
             </div>
 
-            <div 
-              className={`${styles.modalOption} ${styles.modalOptionShow}`}
-            >
+            <div className={`${styles.modalOption} ${styles.modalOptionShow}`} >
               <div style={{ display: 'flex' }}>
                 <IoMdSync className={styles.modalIcon} />
                 <p className={styles.modalOptionText}>Reset entry</p>
