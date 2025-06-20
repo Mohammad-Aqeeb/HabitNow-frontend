@@ -25,10 +25,10 @@
 }
 
 .habitCard {
-  border: 1px solid #ddd;
+  border: 1px solid #1d1d1d;
   border-radius: 5px;
   padding: 1rem;
-  background-color: #735998;
+  background-color: #1d1d1d;
   position: relative;
 }
 
