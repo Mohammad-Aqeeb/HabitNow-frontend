@@ -55,6 +55,18 @@ const tasksSlice = createSlice({
         task.completed = !task.completed;
       }
     },
+    toggleTaskCompletionPending : (state, action)=>{
+      const task = state.items.find(t => t._id === action.payload);
+      if (task) {
+        task.completed = false;
+      }
+    },
+    toggleTaskCompletionDone : (state, action)=>{
+      const task = state.items.find(t => t._id === action.payload);
+      if (task) {
+        task.completed = true;
+      }
+    },
     clearTaskError: (state) => {
       state.error = null;
     },
@@ -117,5 +129,5 @@ const tasksSlice = createSlice({
   }
 });
 
-export const { toggleTaskCompletion, clearTaskError, setTaskLoading } = tasksSlice.actions;
+export const { toggleTaskCompletion, clearTaskError, setTaskLoading, toggleTaskCompletionPending, toggleTaskCompletionDone } = tasksSlice.actions;
 export default tasksSlice.reducer;
