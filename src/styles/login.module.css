@@ -62,3 +62,17 @@
     margin-bottom: 15px;
     text-align: center;
 }
+
+.dontHaveAccountContainer{
+    margin-top: 15px;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.RegisterButton{
+    color: #007bff;
+    cursor: pointer;
+}
