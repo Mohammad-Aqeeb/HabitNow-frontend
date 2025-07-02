@@ -134,7 +134,6 @@ const WhenToDoItPage = ({ onPrevious, onNext, onSave }) => {
         </div>
       </div>
 
-      {/* Footer Buttons */}
       <div className={styles.footer}>
         <button className={styles.backButton} onClick={onPrevious}>
           Back
