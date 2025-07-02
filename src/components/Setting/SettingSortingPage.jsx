@@ -6,7 +6,6 @@ import { SiTicktick } from "react-icons/si";
 import { GoTrophy } from "react-icons/go";
 import { IoMdRepeat } from 'react-icons/io';
 
-
 const SettingSortingPage = () => {
   const router = useRouter();
   const [openSection, setOpenSection] = useState('todo');
