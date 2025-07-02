@@ -67,6 +67,11 @@ const LoginPage = () => {
         <button type="submit" className={styles.loginButton} disabled={loading}>
           {loading ? 'Logging in...' : 'Login'}
         </button>
+
+        <div className={styles.dontHaveAccountContainer}>
+          <p>Don't Have account?</p> 
+          <p className={styles.RegisterButton} onClick={()=>{router.push("/register")}}>Register</p>
+        </div>
       </form>
     </div>
   );
