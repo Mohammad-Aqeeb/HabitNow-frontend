@@ -8,6 +8,7 @@ import styles from "@/styles/Sidenav.module.css";
 import { useModal } from "@/context/ModalContext";
 
 const Sidenav = () => {
+  
   const [isOpen, setIsOpen] = useState(false);
   const { openRateModal } = useModal();
   const hiddenToggleRoutes = ["/login", "/rate", "/contact", "/premium", "/timer", "/categories","/setting"];
