@@ -2,8 +2,10 @@
 import { useState } from 'react';
 import axiosInstance from '../../services/axiosInstance'
 import styles from '../../styles/Register.module.css';
+import { useRouter } from 'next/navigation';
 
 function RegisterPage() {
+  const router = useRouter();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -79,6 +81,11 @@ function RegisterPage() {
         <button type="submit" className={styles.registerButton} disabled={loading}>
           {loading ? 'Registering...' : 'Register'}
         </button>
+
+        <div className={styles.AlreadyHaveAccountContainer}>
+          <p>Already Have account?</p> 
+          <p className={styles.LoginButton} onClick={()=>{router.push("/login")}}>Login</p>
+        </div>
       </form>
     </div>
   );
