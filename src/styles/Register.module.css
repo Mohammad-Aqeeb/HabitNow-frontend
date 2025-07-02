@@ -66,3 +66,17 @@
     margin-bottom: 15px;
     text-align: center;
 }
+
+.AlreadyHaveAccountContainer{
+    margin-top: 15px;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.LoginButton{
+    color: blue;
+    cursor: pointer;
+}
