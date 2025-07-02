@@ -32,9 +32,8 @@ axiosInstance.interceptors.response.use(
       error.response &&
       (error.response.status === 401 || error.response.status === 403)
     ) {
-
       localStorage.removeItem('token');
-      alert('Session expired. Please log in again.');
+      alert(error.response.data.error);
       window.location.href = '/login';
     }
     return Promise.reject(error);
