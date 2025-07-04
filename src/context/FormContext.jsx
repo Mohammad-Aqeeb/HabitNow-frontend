@@ -4,8 +4,6 @@ import React, { createContext, useContext, useState } from 'react';
 
 const FormContext = createContext();
 
-export const useForm = () => useContext(FormContext);
-
 export const FormProvider = ({ children }) => {
   const [formData, setFormData] = useState({
     category: '',
@@ -29,3 +27,5 @@ export const FormProvider = ({ children }) => {
     </FormContext.Provider>
   );
 };
+
+export const useForm = () => useContext(FormContext);
